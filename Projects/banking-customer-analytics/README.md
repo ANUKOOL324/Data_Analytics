@@ -8,14 +8,11 @@ This project analyses 3,000 customer records across demographics, customer segme
 
 ## Business problem
 
-Banking data combines customer details, internal category codes, product holdings and financial balances. It must be checked and prepared before the portfolio can be described reliably.
+Banks need a clear view of customer financial profiles before making lending and portfolio-management decisions. Limited visibility into customer segments, deposits, loan balances and recorded risk weights can make it difficult to identify where lending exposure is concentrated and how well it is supported by the deposit base.
 
-The project answers three questions:
+This project analyses customer demographics, income, banking relationships, product holdings, deposits, bank loans, business lending and recorded risk weighting. Its purpose is to help monitor the customer and loan portfolio, compare exposure across segments and support more informed lending decisions.
 
-1. Is the dataset suitable for analysis?
-2. What customer and segment patterns are visible?
-3. How are financial balances, lending exposure and recorded risk weights distributed?
-
+The dataset does not include repayment history or loan-default outcomes. Therefore, the project provides descriptive risk and exposure analysis and does not predict whether a customer will repay or default on a loan.
 ## Objectives
 
 - Prepare and validate an analysis-ready dataset while preserving the raw file.
@@ -205,6 +202,7 @@ psql -d banking_project -f sql/03_financial_and_risk_analysis.sql
 - Resolve repeated IDs using a trusted source-system key.
 - Add transaction-level analysis if dated records become available.
 - Consider predictive modelling only if a valid outcome is provided.
+
 
 
 
