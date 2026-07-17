@@ -112,12 +112,6 @@ The scripts are read-only and use PostgreSQL CTEs, medians, filtered aggregates 
 7. Saving accounts has the highest skewness (2.193) and 155 IQR-flagged records (5.17%). These high values were retained.
 8. Risk weights 1 and 2 contain 68.60% of records. The field is descriptive, and its risk direction is not confirmed.
 
-## Visualisations
-
-The EDA figures are available under [`reports/figures/`](reports/figures/).
-
-![Pearson correlation heatmap](reports/figures/financial_exposure/pearson_correlation_heatmap.png)
-
 ## Dashboard status
 
 **Completed.** The Power BI dashboard contains Home, Loan Analysis, Deposit Analysis and Summary pages. Both the [PBIX file](dashboard/banking%20analysis_completed.pbix) and the source-controlled [PBIP project](dashboard/pbip/banking%20analysis_completed.pbip) are included.
@@ -211,5 +205,6 @@ psql -d banking_project -f sql/03_financial_and_risk_analysis.sql
 - Resolve repeated IDs using a trusted source-system key.
 - Add transaction-level analysis if dated records become available.
 - Consider predictive modelling only if a valid outcome is provided.
+
 
 
