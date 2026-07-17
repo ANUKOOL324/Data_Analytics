@@ -1,0 +1,23 @@
+model Model
+	culture: en-IN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["banking","banking-realtionships","gender","investment-advisiors"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table banking
+ref table banking-realtionships
+ref table gender
+ref table investment-advisiors
+ref table DateTableTemplate_b4270bf3-5551-4f69-8cea-c7ddc32194f9
+ref table LocalDateTable_4540ca69-49e4-4b06-9e26-37ccc5989d14
+
+ref cultureInfo en-IN
+

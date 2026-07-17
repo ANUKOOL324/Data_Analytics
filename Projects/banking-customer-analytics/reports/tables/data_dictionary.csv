@@ -1,0 +1,26 @@
+original_column_name,clean_column_name,analytical_role,final_data_type,description,interpretation_note
+Client ID,client_id,Identifier,category/string,Recorded customer identifier.,Use as recorded; validate against source systems.
+Name,name,Identifier,category/string,Recorded customer name.,Use as recorded; validate against source systems.
+Age,age,Demographic,int64,Recorded age in years.,Use as recorded; validate against source systems.
+Location ID,location_id,Categorical segment,category/string,Internal location code.,Requires business confirmation.
+Joined Bank,joined_bank,Date,datetime64[ns],Recorded joining date.,Use as recorded; validate against source systems.
+Banking Contact,banking_contact,Categorical segment,category/string,Recorded banking contact.,Use as recorded; validate against source systems.
+Nationality,nationality,Demographic,category/string,Recorded nationality.,Use as recorded; validate against source systems.
+Occupation,occupation,Categorical segment,category/string,Recorded occupation.,Use as recorded; validate against source systems.
+Fee Structure,fee_structure,Ordinal category,category/string,Recorded fee category.,Requires business confirmation.
+Loyalty Classification,loyalty_classification,Ordinal category,category/string,Recorded loyalty category.,Requires business confirmation.
+Estimated Income,estimated_income,Financial measure,float64,Estimated income.,Units or methodology are not supplied.
+Superannuation Savings,superannuation_savings,Financial measure,float64,Recorded superannuation savings.,Units or methodology are not supplied.
+Amount of Credit Cards,amount_of_credit_cards,Product holding,int64,Number of credit cards.,Use as recorded; validate against source systems.
+Credit Card Balance,credit_card_balance,Financial measure,float64,Recorded credit-card balance.,Units or methodology are not supplied.
+Bank Loans,bank_loans,Financial measure,float64,Recorded bank-loan amount.,Units or methodology are not supplied.
+Bank Deposits,bank_deposits,Financial measure,float64,Recorded bank-deposit amount.,Units or methodology are not supplied.
+Checking Accounts,checking_accounts,Financial measure,float64,Recorded checking-account amount.,Units or methodology are not supplied.
+Saving Accounts,saving_accounts,Financial measure,float64,Recorded saving-account amount.,Units or methodology are not supplied.
+Foreign Currency Account,foreign_currency_account,Financial measure,float64,Recorded foreign-currency account amount.,Units or methodology are not supplied.
+Business Lending,business_lending,Financial measure,float64,Recorded business-lending amount.,Units or methodology are not supplied.
+Properties Owned,properties_owned,Product holding,int64,Number of properties owned.,Use as recorded; validate against source systems.
+Risk Weighting,risk_weighting,Ordinal category,int64,Recorded ordered risk code.,Requires business confirmation.
+BRId,brid,Categorical segment,category/string,Internal BRId code.,Requires business confirmation.
+GenderId,genderid,Categorical segment,category/string,Internal gender code.,Requires business confirmation.
+IAId,iaid,Categorical segment,category/string,Internal IAId code.,Requires business confirmation.

@@ -1,0 +1,15 @@
+segment_type,segment_value,bank_deposits,bank_loans,business_lending
+income_band,Low,336806.3,333302.25,504091.88
+income_band,Mid,519994.31,530674.17,779158.77
+income_band,High,735655.255,733433.2050000001,1103762.75
+loyalty_classification,Jade,490931.68,496902.6,728283.3
+loyalty_classification,Silver,452216.52,479104.12,696597.14
+loyalty_classification,Gold,442275.47,462978.43,707174.79
+loyalty_classification,Platinum,435466.02,441663.74,702795.98
+fee_structure,Low,468138.385,482125.49,672980.9299999999
+fee_structure,Mid,446925.015,483572.05000000005,696403.395
+fee_structure,High,480001.555,477439.765,741547.65
+banking_relationship,BR 1,445130.54,472980.105,675764.635
+banking_relationship,BR 2,474980.57,482508.86,734227.03
+banking_relationship,BR 3,466679.97,484190.645,718730.21
+banking_relationship,BR 4,462110.27,477185.63,698612.48

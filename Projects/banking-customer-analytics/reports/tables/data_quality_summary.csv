@@ -1,0 +1,14 @@
+check,result,status
+Row count,3000,Pass
+Missing cells,0,Pass
+Exact duplicate rows,0,Pass
+Unique client IDs,2940,Review
+Duplicate occurrences after first,60,Review
+Rows involved in repeated IDs,119,Review
+Number of repeated client IDs,59,Review
+Blank text cells,0,Pass
+Invalid dates,0,Pass
+Age-17 records,39,Review
+Negative financial values,0,Pass
+Unexpected risk values,0,Pass
+Missing income bands,0,Pass

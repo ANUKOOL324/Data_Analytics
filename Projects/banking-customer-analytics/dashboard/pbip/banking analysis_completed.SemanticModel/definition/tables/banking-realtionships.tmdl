@@ -1,0 +1,31 @@
+table banking-realtionships
+	lineageTag: 227e0e38-da4e-4a59-9723-cf8a3d5a316e
+
+	column BRId
+		dataType: int64
+		formatString: 0
+		lineageTag: 37747387-1015-438c-9be0-5d8a5eba1d3d
+		summarizeBy: count
+		sourceColumn: BRId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Banking_Relationship
+		dataType: string
+		lineageTag: 103b7b7d-f5c4-42bf-afec-95e41f69101c
+		summarizeBy: none
+		sourceColumn: Banking_Relationship
+
+		annotation SummarizationSetBy = Automatic
+
+	partition banking-realtionships = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("anuj", "BankingDB"),
+				    #"dbo_banking-realtionships" = Source{[Schema="dbo",Item="banking-realtionships"]}[Data]
+				in
+				    #"dbo_banking-realtionships"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,74 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 8,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 334.19627745737182,
+            "y": 123.00034066453327
+          },
+          "nodeIndex": "banking",
+          "nodeLineageTag": "dd25706f-a62e-4728-974d-ea07f590268e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 386.35482283619024,
+            "y": 473.2078835155969
+          },
+          "nodeIndex": "banking-realtionships",
+          "nodeLineageTag": "227e0e38-da4e-4a59-9723-cf8a3d5a316e",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 618.35107944140009,
+            "y": -50
+          },
+          "nodeIndex": "gender",
+          "nodeLineageTag": "ba618cc3-f132-41d4-bed8-095b354615ce",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 102.81046171665633
+          },
+          "nodeIndex": "investment-advisiors",
+          "nodeLineageTag": "1d9a71bb-40aa-485f-9267-703c1575c9d6",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

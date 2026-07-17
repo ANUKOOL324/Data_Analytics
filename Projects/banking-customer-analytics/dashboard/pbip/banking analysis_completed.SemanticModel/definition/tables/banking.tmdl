@@ -1,0 +1,315 @@
+table banking
+	lineageTag: dd25706f-a62e-4728-974d-ea07f590268e
+
+	measure 'Total Loan' = ```
+			
+			    SUM(banking[Bank_Loans])
+			    + SUM(banking[Business_Lending])
+			    + SUM(banking[Credit_Card_Balance])
+			```
+		lineageTag: 0dc1013c-ef92-4f11-b5a4-fde1672294c6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_deposit = sum(banking[Bank_Deposits]) + sum(banking[Checking_Accounts]) + sum(banking[Saving_Accounts]) + sum(banking[Foreign_Currency_Account])
+		lineageTag: 7cf451fd-929e-4825-9c1e-47ba5cb8d4cc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Loan_Deposit_Ratio = DIVIDE([Total Loan],[Total_deposit])
+		lineageTag: b72df7a2-37ad-4c31-b653-cd5b35874f5d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Client Tenure Years' =
+			
+			AVERAGEX(
+			    FILTER(
+			        banking,
+			        NOT ISBLANK(banking[Joined_Bank])
+			            && banking[Joined_Bank] <= TODAY()
+			    ),
+			    DIVIDE(
+			        DATEDIFF(
+			            banking[Joined_Bank],
+			            TODAY(),
+			            DAY
+			        ),
+			        365.25
+			    )
+			)
+		lineageTag: bdb0c7f4-5716-4004-8ea5-98ec9601eed3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Record_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 3a847d4a-a7fb-4312-a5e3-609b647de700
+		summarizeBy: sum
+		sourceColumn: Record_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Client_ID
+		dataType: string
+		lineageTag: ec27ead0-fd73-4218-ae09-d9e5b6824255
+		summarizeBy: none
+		sourceColumn: Client_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: a0b4a93b-de8b-44e3-b7d8-a8afbe2aa93b
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Age
+		dataType: int64
+		formatString: 0
+		lineageTag: 99d23c55-3767-4614-882f-a704f610acf1
+		summarizeBy: sum
+		sourceColumn: Age
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 01ac3338-62ab-4d0f-8dab-9339b405b0b1
+		summarizeBy: count
+		sourceColumn: Location_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Joined_Bank
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a82c1509-c00c-4e90-b1d6-b24e58bd6096
+		summarizeBy: none
+		sourceColumn: Joined_Bank
+
+		variation Variation
+			isDefault
+			relationship: 3a4bda0d-fe7c-412d-b60e-a6a14acb1cd3
+			defaultHierarchy: LocalDateTable_4540ca69-49e4-4b06-9e26-37ccc5989d14.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Banking_Contact
+		dataType: string
+		lineageTag: 5dc28e07-79b3-4993-b838-0b6040e19df6
+		summarizeBy: none
+		sourceColumn: Banking_Contact
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nationality
+		dataType: string
+		lineageTag: 5b3c48ef-5373-4622-b34e-6dd256873877
+		summarizeBy: none
+		sourceColumn: Nationality
+
+		annotation SummarizationSetBy = Automatic
+
+	column Occupation
+		dataType: string
+		lineageTag: 21c66fe6-bcb9-4d04-939e-e3934c3b69e9
+		summarizeBy: none
+		sourceColumn: Occupation
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fee_Structure
+		dataType: string
+		lineageTag: d59d62fe-b9d9-4086-80c1-96deec1de64e
+		summarizeBy: none
+		sourceColumn: Fee_Structure
+
+		annotation SummarizationSetBy = Automatic
+
+	column Loyalty_Classification
+		dataType: string
+		lineageTag: 6afcba4f-9b72-488c-bcf8-03831a48c828
+		summarizeBy: none
+		sourceColumn: Loyalty_Classification
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estimated_Income
+		dataType: double
+		lineageTag: 7836e8b6-7938-4c9d-b93a-93df42913b1d
+		summarizeBy: sum
+		sourceColumn: Estimated_Income
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Superannuation_Savings
+		dataType: double
+		lineageTag: 52f03317-9e2d-4652-a8f9-bc57508a62d8
+		summarizeBy: sum
+		sourceColumn: Superannuation_Savings
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Amount_of_Credit_Cards
+		dataType: int64
+		formatString: 0
+		lineageTag: f62bd0f7-3552-4795-b8d0-4fbd2ab3878e
+		summarizeBy: sum
+		sourceColumn: Amount_of_Credit_Cards
+
+		annotation SummarizationSetBy = Automatic
+
+	column Credit_Card_Balance
+		dataType: double
+		lineageTag: ddf61da9-b01c-478e-98f7-3e1979ed532e
+		summarizeBy: sum
+		sourceColumn: Credit_Card_Balance
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Bank_Loans
+		dataType: double
+		lineageTag: 906e364b-e10e-407f-b647-5b7edc996c1e
+		summarizeBy: sum
+		sourceColumn: Bank_Loans
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Bank_Deposits
+		dataType: double
+		lineageTag: e6dcad7f-0a80-48dc-ae54-4ee98c2d9339
+		summarizeBy: sum
+		sourceColumn: Bank_Deposits
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Checking_Accounts
+		dataType: double
+		lineageTag: 7dcb741c-79c7-41fe-8908-e9302cda0155
+		summarizeBy: sum
+		sourceColumn: Checking_Accounts
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Saving_Accounts
+		dataType: double
+		lineageTag: 726e4f10-1df1-429c-86c8-3785c1e24751
+		summarizeBy: sum
+		sourceColumn: Saving_Accounts
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Foreign_Currency_Account
+		dataType: double
+		lineageTag: 8d5e2bb9-707a-4f53-9b66-7f7c4804c3e8
+		summarizeBy: sum
+		sourceColumn: Foreign_Currency_Account
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Business_Lending
+		dataType: double
+		lineageTag: 5f743992-22bd-4b3a-8859-41a0fba95c78
+		summarizeBy: sum
+		sourceColumn: Business_Lending
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Properties_Owned
+		dataType: int64
+		formatString: 0
+		lineageTag: 6f7ae767-3bb0-471a-8cad-a5b1e54e0e77
+		summarizeBy: sum
+		sourceColumn: Properties_Owned
+
+		annotation SummarizationSetBy = Automatic
+
+	column Risk_Weighting
+		dataType: int64
+		formatString: 0
+		lineageTag: 241dc94e-d225-4932-a641-8cd04f8d4057
+		summarizeBy: sum
+		sourceColumn: Risk_Weighting
+
+		annotation SummarizationSetBy = Automatic
+
+	column BRId
+		dataType: string
+		lineageTag: 6724e5cc-af2c-46d5-b723-e59f54303c2a
+		summarizeBy: none
+		sourceColumn: BRId
+
+		annotation SummarizationSetBy = Automatic
+
+	column GenderId
+		dataType: string
+		lineageTag: dd51d1d3-2233-453d-b82b-4b942ed86414
+		summarizeBy: none
+		sourceColumn: GenderId
+
+		annotation SummarizationSetBy = Automatic
+
+	column IAId
+		dataType: string
+		lineageTag: 069d1a06-5420-4c3d-ba10-4b8065d2ba5e
+		summarizeBy: none
+		sourceColumn: IAId
+
+		annotation SummarizationSetBy = Automatic
+
+	column income_band
+		dataType: string
+		lineageTag: ef8650c3-c17b-475b-bfc2-8c891e9ac529
+		summarizeBy: none
+		sourceColumn: income_band
+
+		annotation SummarizationSetBy = Automatic
+
+	partition banking = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("anuj", "BankingDB"),
+				    dbo_banking = Source{[Schema="dbo",Item="banking"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(dbo_banking,{{"GenderId", type text}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type","1","Male",Replacer.ReplaceText,{"GenderId"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","2","Female",Replacer.ReplaceText,{"GenderId"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Replaced Value1", "income_band", each if [Estimated_Income] >= 300000 then "High" else if [Estimated_Income] >= 100000 then "Medium" else "Low"),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Conditional Column",{{"BRId", type text}}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Changed Type1","1","Retail",Replacer.ReplaceText,{"BRId"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","2","Institutional",Replacer.ReplaceText,{"BRId"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","3","Private Bank",Replacer.ReplaceText,{"BRId"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","4","Commercial",Replacer.ReplaceText,{"BRId"}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Replaced Value5",{{"IAId", type text}})
+				in
+				    #"Changed Type2"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

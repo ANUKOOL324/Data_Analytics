@@ -1,0 +1,31 @@
+table gender
+	lineageTag: ba618cc3-f132-41d4-bed8-095b354615ce
+
+	column GenderId
+		dataType: int64
+		formatString: 0
+		lineageTag: 52d7f220-3baf-471d-92fb-9e79f8c2780d
+		summarizeBy: none
+		sourceColumn: GenderId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: 588b808e-5b9e-4c0b-a7fd-dfd04e76bdfd
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gender = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("anuj", "BankingDB"),
+				    dbo_gender = Source{[Schema="dbo",Item="gender"]}[Data]
+				in
+				    dbo_gender
+
+	annotation PBI_ResultType = Table
+

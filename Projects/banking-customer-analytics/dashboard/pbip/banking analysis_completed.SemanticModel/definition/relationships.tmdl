@@ -1,0 +1,13 @@
+relationship 3a4bda0d-fe7c-412d-b60e-a6a14acb1cd3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: banking.Joined_Bank
+	toColumn: LocalDateTable_4540ca69-49e4-4b06-9e26-37ccc5989d14.Date
+
+relationship AutoDetected_af3decc9-7e0c-46f6-97b5-e434627460ac
+	fromColumn: banking.GenderId
+	toColumn: gender.Gender
+
+relationship 15d31623-47b8-cde6-5b87-a13077509389
+	fromColumn: banking.IAId
+	toColumn: investment-advisiors.IAId
+

@@ -1,0 +1,31 @@
+table investment-advisiors
+	lineageTag: 1d9a71bb-40aa-485f-9267-703c1575c9d6
+
+	column IAId
+		dataType: int64
+		formatString: 0
+		lineageTag: ac262f4f-517b-437b-aa4f-ab47f7dfcf36
+		summarizeBy: none
+		sourceColumn: IAId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Investment_Advisor
+		dataType: string
+		lineageTag: 0ba3084e-0b0b-4f3c-8c2c-a19dcfafca97
+		summarizeBy: none
+		sourceColumn: Investment_Advisor
+
+		annotation SummarizationSetBy = Automatic
+
+	partition investment-advisiors = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("anuj", "BankingDB"),
+				    #"dbo_investment-advisiors" = Source{[Schema="dbo",Item="investment-advisiors"]}[Data]
+				in
+				    #"dbo_investment-advisiors"
+
+	annotation PBI_ResultType = Table
+
