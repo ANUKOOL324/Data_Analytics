@@ -49,6 +49,170 @@ Processed files:
 | `data/processed/banking_customer_profiles_clean.csv` | One clean row per customer. Used for customer segmentation. |
 | `data/processed/banking_customer_loan_analytics_clean.csv` | One clean row per loan with joined customer, financial and risk fields. Used for lending-risk analysis and modelling. |
 
+## Business Insights
+
+### 1. Loan exposure is highly concentrated in Home Loans
+
+Home Loans account for INR 1710.92 crore out of INR 2460.72 crore total loan exposure. That is the largest exposure pool in the portfolio.
+
+| Metric | Value |
+|---|---:|
+| Home Loan records | 4,565 |
+| Home Loan exposure | INR 1710.92 crore |
+| Home Loan default rate | 13.21% |
+| Home Loan expected loss | INR 106.05 crore |
+
+Business meaning:
+
+- Home Loans are not the riskiest product by default rate, but they create the largest expected loss because the exposure amount is very high.
+- A small increase in Home Loan defaults can create a large portfolio-level loss.
+
+Recommended action:
+
+- Monitor high-value Home Loans separately.
+- Track early warning signals such as high DTI, missed payments and days past due.
+- Use stricter review for large Home Loans with weak credit score or high LTV.
+
+### 2. Business Loans are the riskiest loan product
+
+Business Loans have the highest default rate in the portfolio.
+
+| Metric | Value |
+|---|---:|
+| Business Loan records | 1,929 |
+| Business Loan exposure | INR 493.90 crore |
+| Business Loan default rate | 30.79% |
+| Business Loan expected loss | INR 84.94 crore |
+
+Business meaning:
+
+- Business Loans are smaller than Home Loans by total exposure, but the default rate is much higher.
+- This product needs stronger risk control because almost one in three Business Loan records is marked as defaulted in the dataset.
+
+Recommended action:
+
+- Review Business Loan underwriting rules.
+- Add stricter checks for DTI, repayment history and collateral quality.
+- Create a separate watchlist for Business Loans with recent delinquency.
+
+### 3. High-risk band clearly separates risky loans
+
+The risk band is useful because default behaviour changes sharply across bands.
+
+| Risk band | Loans | Default rate |
+|---|---:|---:|
+| High | 2,144 | 53.82% |
+| Medium | 4,288 | 7.53% |
+| Low | 5,479 | 0.02% |
+
+Business meaning:
+
+- The High risk group is the most important monitoring group.
+- Low risk loans are very stable in this dataset.
+- The difference between High and Low risk bands shows that the risk indicators are separating the portfolio well.
+
+Recommended action:
+
+- Prioritize High risk loans for manual review.
+- Use Medium risk loans for early intervention campaigns.
+- Keep Low risk loans under normal monitoring instead of spending too many review resources there.
+
+### 4. High DTI is a strong repayment pressure signal
+
+Customers with DTI above 60% show the highest default rate among DTI groups.
+
+| DTI band | Loans | Default rate |
+|---|---:|---:|
+| <=35% | 2,011 | 2.93% |
+| 35-45% | 1,812 | 3.86% |
+| 45-60% | 2,785 | 6.97% |
+| >60% | 5,303 | 21.78% |
+
+Business meaning:
+
+- High DTI means a larger part of income is already going toward debt payments.
+- When DTI crosses 60%, repayment stress becomes much more visible.
+
+Recommended action:
+
+- Use DTI above 60% as an early warning threshold.
+- Combine DTI with credit score and missed payment history before increasing exposure.
+- Avoid treating income alone as proof of repayment capacity.
+
+### 5. Recent delinquency is one of the clearest warning signals
+
+Loans with recent delinquency show much higher default risk.
+
+| Recent delinquency | Loans | Default rate |
+|---|---:|---:|
+| No | 5,571 | 0.00% |
+| Yes | 6,340 | 23.31% |
+
+Business meaning:
+
+- Missed payments and days past due are direct signs that a borrower is already struggling.
+- This is why the monitoring model performs better than the approval-style model.
+
+Recommended action:
+
+- Build an active watchlist using missed payments and days past due.
+- Contact customers early before delinquency becomes default.
+- Separate loan approval analysis from active loan monitoring.
+
+### 6. Commercial relationship customers carry higher default risk
+
+Commercial customers have the highest relationship-level default rate.
+
+| Relationship segment | Loans | Exposure | Default rate |
+|---|---:|---:|---:|
+| Retail | 6,277 | INR 977.63 crore | 9.86% |
+| Private Bank | 2,726 | INR 797.52 crore | 13.02% |
+| Commercial | 1,614 | INR 440.98 crore | 22.80% |
+| Institutional | 1,294 | INR 244.58 crore | 10.51% |
+
+Business meaning:
+
+- Commercial customers are not the largest group, but their default rate is the highest.
+- This segment needs closer portfolio monitoring and product-level investigation.
+
+Recommended action:
+
+- Review Commercial loans by loan type and collateral.
+- Track Commercial accounts with high DTI or recent delinquency first.
+- Use segment-level dashboards for relationship managers.
+
+### 7. High-value customer segments should be protected
+
+Private Bank and Platinum customers show strong deposit value.
+
+| Segment | Result |
+|---|---:|
+| Private Bank median deposits | INR 2,957,191 |
+| Platinum loyalty median deposits | INR 4,902,204 |
+| Overall median deposits | INR 2,344,104 |
+
+Business meaning:
+
+- These customers are important for relationship value and deposit stability.
+- Losing them can affect both deposits and future lending opportunities.
+
+Recommended action:
+
+- Give high-value customers better relationship management.
+- Monitor high-value customers who also carry risky loans.
+- Use deposit strength together with loan risk, not separately.
+
+## Business Recommendations
+
+| Area | Recommendation |
+|---|---|
+| Portfolio monitoring | Prioritize High risk loans, Business Loans and DTI above 60%. |
+| Product strategy | Treat Home Loans as exposure-heavy and Business Loans as default-heavy. |
+| Customer management | Protect Private Bank and Platinum customers because they hold stronger deposit value. |
+| Early warning system | Use missed payments, days past due, DTI and credit score together. |
+| Model usage | Use the monitoring Random Forest for active loan review, not as an automatic approval system. |
+| Dashboard usage | Track exposure, default rate and expected loss together instead of looking at loan count alone. |
+
 ## Project Workflow
 
 ```mermaid
