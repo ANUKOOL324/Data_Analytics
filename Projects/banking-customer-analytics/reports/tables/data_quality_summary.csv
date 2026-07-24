@@ -1,14 +1,9 @@
-check,result,status
-Row count,3000,Pass
-Missing cells,0,Pass
-Exact duplicate rows,0,Pass
-Unique client IDs,2940,Review
-Duplicate occurrences after first,60,Review
-Rows involved in repeated IDs,119,Review
-Number of repeated client IDs,59,Review
-Blank text cells,0,Pass
-Invalid dates,0,Pass
-Age-17 records,39,Review
-Negative financial values,0,Pass
-Unexpected risk values,0,Pass
-Missing income bands,0,Pass
+insight,value
+Customer base prepared,"15,000 customers"
+Loan portfolio prepared,"11,911 loan records"
+Customers with loans,"10,279 customers"
+Overall default rate,12.41%
+Total loan exposure,INR 2460.72 crore
+Total expected loss,INR 199.17 crore
+Highest DTI band default rate,21.78%
+High risk band default rate,53.82%

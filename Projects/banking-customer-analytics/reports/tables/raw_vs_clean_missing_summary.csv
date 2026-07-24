@@ -1,0 +1,10 @@
+table,column,missing_before,missing_after
+customers,annual_income,225,0
+customers,occupation,150,0
+customers,employment_status,120,0
+financial_profile,credit_utilization_ratio,180,0
+financial_profile,savings_balance,90,0
+financial_profile,checking_balance,60,0
+loans,interest_rate,95,0
+loan_risk,credit_score,214,0
+loan_risk,debt_to_income_ratio,119,0

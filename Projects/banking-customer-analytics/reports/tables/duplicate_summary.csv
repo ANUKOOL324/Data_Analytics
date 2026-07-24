@@ -1,0 +1,5 @@
+check,count
+duplicate customer IDs in customer_profile,0
+duplicate loan IDs in loan_analysis,0
+exact duplicate customer rows,0
+exact duplicate loan rows,0

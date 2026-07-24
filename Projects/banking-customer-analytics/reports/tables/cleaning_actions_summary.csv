@@ -1,0 +1,9 @@
+issue,action
+inconsistent text labels,stripped spaces and standardized casing
+missing annual income,recovered from monthly income or relationship median
+missing occupation/employment,filled with Unknown
+missing checking/savings balances,filled with median balance
+missing credit utilization,recomputed from card balance and limit
+missing interest rate,filled with loan-type median
+missing credit score and DTI,filled with risk-band median
+missing LTV for unsecured loans,kept as logical missing value

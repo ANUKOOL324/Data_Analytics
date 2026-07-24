@@ -1,0 +1,5 @@
+file_name,business_level,rows,columns
+customers.csv,One row per customer,15000,15
+financial_profile.csv,One row per customer,15000,12
+loans.csv,One row per loan,11911,11
+loan_risk.csv,One row per loan,11911,10

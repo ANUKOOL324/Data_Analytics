@@ -1,0 +1,8 @@
+check,result,why_it_matters,status
+customer_id is unique in customers,True,Each customer should appear once in the customer master table.,PASS
+customer_id is unique in financial_profile,True,Each customer should have one financial profile.,PASS
+loan_id is unique in loans,True,Each loan should appear once in the loan table.,PASS
+loan_id is unique in loan_risk,True,Each loan should have one risk/outcome record.,PASS
+all financial customers exist in customers,True,Financial rows should not point to unknown customers.,PASS
+all loan customers exist in customers,True,Loans should not belong to unknown customers.,PASS
+all loans have risk records,True,Every loan needs repayment/risk information for this project.,PASS

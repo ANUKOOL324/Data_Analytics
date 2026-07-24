@@ -1,0 +1,6 @@
+column,raw_unique_values,sample_values
+banking_relationship,24,"['Commercial', 'Retail', 'Private Bank', 'Institutional', 'private bank', 'RETAIL', 'PRIVATE BANK', ' Retail ']"
+loyalty_classification,24,"['Silver', 'Jade', 'Gold', 'Platinum', ' Jade ', ' silver ', ' GOLD ', 'GOLD']"
+loan_type,30,"['Education Loan', 'Home Loan', 'Business Loan', 'Auto Loan', 'Personal Loan', 'business loan', 'home loan', ' home loan ']"
+repayment_status,32,"['Current', 'Paid Off', 'Defaulted', 'Late', 'Written Off', 'CURRENT', 'Restructured', ' late ', ' Current ', ' Written Off ']"
+risk_band,18,"['Low', 'Medium', 'High', ' Low ', 'LOW', 'HIGH', ' MEDIUM ', 'medium']"

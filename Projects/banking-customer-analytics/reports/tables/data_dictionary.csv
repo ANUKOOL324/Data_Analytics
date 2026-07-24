@@ -1,26 +1,56 @@
-original_column_name,clean_column_name,analytical_role,final_data_type,description,interpretation_note
-Client ID,client_id,Identifier,category/string,Recorded customer identifier.,Use as recorded; validate against source systems.
-Name,name,Identifier,category/string,Recorded customer name.,Use as recorded; validate against source systems.
-Age,age,Demographic,int64,Recorded age in years.,Use as recorded; validate against source systems.
-Location ID,location_id,Categorical segment,category/string,Internal location code.,Requires business confirmation.
-Joined Bank,joined_bank,Date,datetime64[ns],Recorded joining date.,Use as recorded; validate against source systems.
-Banking Contact,banking_contact,Categorical segment,category/string,Recorded banking contact.,Use as recorded; validate against source systems.
-Nationality,nationality,Demographic,category/string,Recorded nationality.,Use as recorded; validate against source systems.
-Occupation,occupation,Categorical segment,category/string,Recorded occupation.,Use as recorded; validate against source systems.
-Fee Structure,fee_structure,Ordinal category,category/string,Recorded fee category.,Requires business confirmation.
-Loyalty Classification,loyalty_classification,Ordinal category,category/string,Recorded loyalty category.,Requires business confirmation.
-Estimated Income,estimated_income,Financial measure,float64,Estimated income.,Units or methodology are not supplied.
-Superannuation Savings,superannuation_savings,Financial measure,float64,Recorded superannuation savings.,Units or methodology are not supplied.
-Amount of Credit Cards,amount_of_credit_cards,Product holding,int64,Number of credit cards.,Use as recorded; validate against source systems.
-Credit Card Balance,credit_card_balance,Financial measure,float64,Recorded credit-card balance.,Units or methodology are not supplied.
-Bank Loans,bank_loans,Financial measure,float64,Recorded bank-loan amount.,Units or methodology are not supplied.
-Bank Deposits,bank_deposits,Financial measure,float64,Recorded bank-deposit amount.,Units or methodology are not supplied.
-Checking Accounts,checking_accounts,Financial measure,float64,Recorded checking-account amount.,Units or methodology are not supplied.
-Saving Accounts,saving_accounts,Financial measure,float64,Recorded saving-account amount.,Units or methodology are not supplied.
-Foreign Currency Account,foreign_currency_account,Financial measure,float64,Recorded foreign-currency account amount.,Units or methodology are not supplied.
-Business Lending,business_lending,Financial measure,float64,Recorded business-lending amount.,Units or methodology are not supplied.
-Properties Owned,properties_owned,Product holding,int64,Number of properties owned.,Use as recorded; validate against source systems.
-Risk Weighting,risk_weighting,Ordinal category,int64,Recorded ordered risk code.,Requires business confirmation.
-BRId,brid,Categorical segment,category/string,Internal BRId code.,Requires business confirmation.
-GenderId,genderid,Categorical segment,category/string,Internal gender code.,Requires business confirmation.
-IAId,iaid,Categorical segment,category/string,Internal IAId code.,Requires business confirmation.
+column,dtype,missing_count,description
+loan_id,object,0,Unique loan identifier.
+customer_id,object,0,Unique customer identifier.
+loan_type,category,0,Type of loan product.
+loan_amount,float64,0,Loan principal amount.
+loan_term_months,int64,0,Engineered or supporting analysis field.
+interest_rate,float64,0,Annual loan interest rate.
+loan_start_date,datetime64[ns],0,Engineered or supporting analysis field.
+collateral_type,category,0,Collateral category for the loan.
+collateral_value,float64,0,Engineered or supporting analysis field.
+monthly_loan_payment,float64,0,Engineered or supporting analysis field.
+loan_purpose,category,0,Engineered or supporting analysis field.
+credit_score,float64,0,Borrower credit score.
+debt_to_income_ratio,float64,0,Debt payment burden relative to income.
+loan_to_value_ratio,float64,3324,Loan amount compared with collateral value.
+missed_payments_12m,int64,0,Missed payments in the last 12 months.
+days_past_due,int64,0,Current overdue days.
+repayment_status,category,0,Current repayment status.
+default_flag,int64,0,"1 if defaulted, otherwise 0."
+risk_band,category,0,"Risk category: Low, Medium, or High."
+expected_loss_amount,float64,0,Estimated loss amount based on risk and exposure.
+customer_name,object,0,Synthetic customer name.
+age,int64,0,Customer age in years.
+gender,category,0,Customer gender.
+nationality,category,0,Customer nationality.
+occupation,category,0,Customer occupation or business category.
+employment_status,category,0,Employment status.
+city,category,0,Engineered or supporting analysis field.
+state,category,0,Engineered or supporting analysis field.
+banking_relationship,category,0,"Customer relationship segment such as Retail, Private Bank, Commercial, or Institutional."
+loyalty_classification,category,0,Customer loyalty tier.
+fee_structure,category,0,Engineered or supporting analysis field.
+investment_advisor,category,0,Assigned advisor or relationship team.
+joined_bank,datetime64[ns],0,Engineered or supporting analysis field.
+annual_income,float64,0,Estimated yearly customer income.
+monthly_income,float64,0,Engineered or supporting analysis field.
+bank_deposits,float64,0,Engineered or supporting analysis field.
+checking_balance,float64,0,Engineered or supporting analysis field.
+savings_balance,float64,0,Engineered or supporting analysis field.
+credit_card_limit,float64,0,Engineered or supporting analysis field.
+credit_card_balance,float64,0,Engineered or supporting analysis field.
+credit_utilization_ratio,float64,0,Engineered or supporting analysis field.
+business_lending,float64,0,Engineered or supporting analysis field.
+existing_monthly_debt_payment,float64,0,Engineered or supporting analysis field.
+total_deposit_balance,float64,0,"Combined deposit, checking, and savings balance."
+deposit_to_income_ratio,float64,0,Engineered or supporting analysis field.
+age_group,category,0,Engineered or supporting analysis field.
+income_band,category,0,Engineered or supporting analysis field.
+customer_tenure_years,float64,0,Engineered or supporting analysis field.
+credit_utilization_band,category,0,Engineered or supporting analysis field.
+credit_score_band,category,0,Engineered or supporting analysis field.
+dti_band,category,0,Engineered or supporting analysis field.
+ltv_band,category,3324,Engineered or supporting analysis field.
+has_recent_delinquency,bool,0,Engineered or supporting analysis field.
+loan_to_income_ratio,float64,0,Engineered or supporting analysis field.
+exposure_after_deposits,float64,0,Engineered or supporting analysis field.
