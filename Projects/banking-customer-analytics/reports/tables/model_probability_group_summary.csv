@@ -1,0 +1,6 @@
+probability_group,loans,actual_defaults,actual_default_rate,average_probability_pct,total_exposure_crore
+Very Low,596,0,0.0,1.29,28.99
+Low,595,0,0.0,2.23,92.17
+Medium,596,0,0.0,7.14,145.6
+High,595,3,0.5,18.12,171.85
+Very High,596,367,61.58,74.27,169.92

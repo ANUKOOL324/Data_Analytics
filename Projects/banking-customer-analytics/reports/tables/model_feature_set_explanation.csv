@@ -1,0 +1,3 @@
+feature_set,main_use,uses_repayment_warning_fields,example_features,important_note
+Approval-style,Loan approval / early risk check,No,"income, credit score, DTI, loan amount, loan type, deposits",More realistic before repayment behavior is known
+Monitoring,Active loan monitoring,Yes,"approval features + missed payments, days past due, risk band",Better for finding risky existing loans
