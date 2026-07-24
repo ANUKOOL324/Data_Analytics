@@ -1,0 +1,21 @@
+banking_relationship,income_band,customers,median_income,median_deposits
+Commercial,Affluent,22,3802323.34,11744227.805
+Commercial,High,392,1853676.69,5710382.045
+Commercial,Low,60,339971.69,883384.6699999999
+Commercial,Lower Middle,617,631612.31,1580363.67
+Commercial,Middle,991,1074459.62,2939343.44
+Institutional,Affluent,14,3268016.965,11733297.07
+Institutional,High,258,1817330.305,5595091.33
+Institutional,Low,80,359634.185,866406.4850000001
+Institutional,Lower Middle,527,630832.49,1599176.92
+Institutional,Middle,722,1055398.9449999998,2928573.52
+Private Bank,Affluent,88,3511634.52,11936935.735
+Private Bank,High,901,1850874.2,5545397.1
+Private Bank,Low,66,346666.65,854470.645
+Private Bank,Lower Middle,804,638740.8300000001,1620570.545
+Private Bank,Middle,1637,1082696.85,2940971.1
+Retail,Affluent,20,3225432.275,10287755.8
+Retail,High,609,1795333.44,5814771.19
+Retail,Low,752,330786.155,792817.2649999999
+Retail,Lower Middle,3493,594404.91,1570761.93
+Retail,Middle,2947,1018567.93,2920142.75

@@ -1,0 +1,5 @@
+credit_utilization_band,customers,median_income,median_card_balance,median_credit_limit,customer_pct
+High,369,874386.72,120784.22,187622.72,2.46
+Low,10257,874386.72,24323.8,179701.59,68.38
+Maxed,6,988007.475,169159.255,190332.38,0.04
+Moderate,4368,874386.72,72064.485,180890.775,29.12

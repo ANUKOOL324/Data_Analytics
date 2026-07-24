@@ -1,0 +1,3 @@
+gender,customers,median_income,median_deposits,median_credit_utilization,customer_pct
+Female,6955,874386.72,2360288.1,0.216,46.37
+Male,8045,874386.72,2336237.44,0.215,53.63

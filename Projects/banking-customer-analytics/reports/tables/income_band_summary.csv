@@ -1,4 +1,6 @@
-income_band,customer_count,percentage
-Low,1027,34.233333333333334
-Mid,1517,50.56666666666667
-High,456,15.2
+income_band,customers,median_income,median_deposits,median_credit_utilization,customer_pct
+Affluent,144,3494126.655,11598840.61,0.2425,0.96
+High,2160,1831517.245,5648448.285,0.21,14.4
+Low,958,334465.33999999997,810125.355,0.2265,6.39
+Lower Middle,5441,609520.61,1579848.13,0.216,36.27
+Middle,6297,1047938.51,2929163.0,0.214,41.98

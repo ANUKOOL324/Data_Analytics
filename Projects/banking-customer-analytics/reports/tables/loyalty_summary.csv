@@ -1,5 +1,5 @@
-loyalty_classification,customer_count,percentage
-Jade,1331,44.36666666666667
-Silver,767,25.566666666666666
-Gold,585,19.5
-Platinum,317,10.566666666666666
+loyalty_classification,customers,median_tenure_years,median_income,median_deposits,customer_pct
+Platinum,1954,14.8,1172548.9,4902203.869999999,13.03
+Gold,3716,14.1,952596.5,2989521.35,24.77
+Silver,4540,14.0,828441.49,2148981.075,30.27
+Jade,4790,14.3,773544.98,1673124.54,31.93
