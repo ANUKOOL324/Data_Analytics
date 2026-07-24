@@ -1,0 +1,4 @@
+risk_band,expected_loss,total_exposure,loans,expected_loss_share_pct
+High,1140581973.81,7389608835.83,2144,57.27
+Medium,706216438.09,10483742729.08,4288,35.46
+Low,144854380.77,6733805314.28,5479,7.27

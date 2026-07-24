@@ -1,0 +1,3 @@
+has_recent_delinquency,loans,median_credit_score,median_dti,default_rate,expected_loss
+False,5571,692.0,0.457,0.0,244733719.82
+True,6340,649.0,0.715,23.31,1746919072.85

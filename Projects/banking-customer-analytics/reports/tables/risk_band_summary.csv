@@ -1,0 +1,4 @@
+risk_band,loans,total_exposure,median_credit_score,median_dti,median_ltv,default_rate,expected_loss
+High,2144,7389608835.83,632.0,0.876,0.663,53.82,1140581973.81
+Medium,4288,10483742729.08,656.0,0.673,0.661,7.53,706216438.09
+Low,5479,6733805314.28,700.0,0.412,0.645,0.02,144854380.77

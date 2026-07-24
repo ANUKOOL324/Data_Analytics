@@ -1,0 +1,6 @@
+credit_score_band,loans,median_dti,median_loan_amount,default_rate,expected_loss
+Excellent,12,0.3005,426133.905,0.0,216429.8
+Fair,5257,0.683,1884448.68,19.21,1482179960.5
+Good,5782,0.49,824861.4,6.4,353204931.73
+Poor,175,0.981,3114025.46,42.86,138557979.15
+Very Good,685,0.367,517374.23,3.36,17493491.49
