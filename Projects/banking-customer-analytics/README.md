@@ -431,9 +431,9 @@ Important output files:
 - `reports/figures/financial_exposure/loan_risk_boxplots.png`
 - `reports/figures/financial_exposure/risk_field_correlation_heatmap.png`
 
-## Notebook 4: Random Forest Default Prediction Model
+## Notebook 4: Default Prediction Model
 
-This notebook builds a Random Forest classification model to predict `default_flag`.
+This notebook builds and compares machine-learning models to predict `default_flag`.
 
 Target meaning:
 
@@ -442,31 +442,69 @@ Target meaning:
 | `0` | Not default: the loan is not marked as defaulted in the dataset. |
 | `1` | Default: the loan is marked as defaulted because repayment behaviour is bad enough to be treated as a failure to repay. |
 
-Two Random Forest feature sets are used:
+### Customer-Wise Train/Test Split
+
+The notebook uses `StratifiedGroupKFold` with `customer_id` as the group. This prevents the same borrower from appearing in both training and testing data.
+
+| Split check | Value |
+|---|---:|
+| Training loan rows | 8,937 |
+| Testing loan rows | 2,974 |
+| Unique training customers | 7,709 |
+| Unique testing customers | 2,570 |
+| Overlapping customers | 0 |
+| Training default rate | 12.34% |
+| Testing default rate | 12.61% |
+
+### Models Compared
+
+Two model types are used:
+
+| Model | Purpose |
+|---|---|
+| Logistic Regression | Simple baseline model. Easier to interpret and useful for comparison. |
+| Random Forest | Nonlinear model that can capture interactions between financial and repayment-risk variables. |
+
+Two feature sets are used:
 
 | Feature set | Purpose |
 |---|---|
 | Approval-style | Uses profile, income, loan and financial fields that are closer to loan approval information. |
 | Monitoring | Adds repayment-warning fields such as missed payments, days past due and risk band. |
 
-Model performance:
+Monitoring models must not be presented as automatic loan-approval models because they include active repayment-warning information.
 
-| Feature set | Accuracy | Precision | Recall | F1-score | ROC-AUC |
-|---|---:|---:|---:|---:|---:|
-| Monitoring Random Forest | 0.9510 | 0.7258 | 0.9730 | 0.8314 | 0.9873 |
-| Approval-style Random Forest | 0.7864 | 0.3061 | 0.5676 | 0.3977 | 0.7731 |
+### Model Performance
 
-The monitoring model performs better because it uses active repayment-warning signals. It should be explained as a loan-monitoring model. The approval-style model is weaker because it does not use direct delinquency signals.
+| Feature set | Model | Accuracy | Precision | Recall | F1-score | ROC-AUC | False negatives | False positives |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| Approval-style | Logistic Regression | 0.7431 | 0.2860 | 0.6933 | 0.4050 | 0.7949 | 115 | 649 |
+| Approval-style | Random Forest | 0.7966 | 0.3333 | 0.6133 | 0.4319 | 0.8004 | 145 | 460 |
+| Monitoring | Logistic Regression | 0.9677 | 0.8252 | 0.9440 | 0.8806 | 0.9950 | 21 | 75 |
+| Monitoring | Random Forest | 0.9475 | 0.7160 | 0.9680 | 0.8231 | 0.9855 | 12 | 144 |
 
-Most important features in the monitoring model:
+### Final Model Choice
+
+The final selected model is **Monitoring Random Forest**.
+
+Reason:
+
+- Banking default monitoring should prioritize catching risky loans.
+- Monitoring Random Forest has the highest recall: `0.9680`.
+- It has the fewest false negatives: `12`.
+- Monitoring Logistic Regression has stronger precision, F1-score and ROC-AUC, but it misses more actual defaults: `21` false negatives.
+
+So the final choice is not based on accuracy alone. It is based on the business cost of missing default-risk loans.
+
+Most important Random Forest features:
 
 | Feature | Importance |
 |---|---:|
-| `days_past_due` | 38.50% |
-| `risk_band` | 24.50% |
-| `missed_payments_12m` | 14.49% |
-| `debt_to_income_ratio` | 3.85% |
-| `credit_score` | 3.31% |
+| `days_past_due` | 36.92% |
+| `risk_band` | 24.98% |
+| `missed_payments_12m` | 15.93% |
+| `debt_to_income_ratio` | 3.81% |
+| `credit_score` | 3.66% |
 
 Important output files:
 
@@ -475,6 +513,7 @@ Important output files:
 - `reports/tables/random_forest_feature_importance.csv`
 - `reports/tables/high_risk_loan_predictions.csv`
 - `reports/tables/model_probability_group_summary.csv`
+- `reports/figures/modeling/model_comparison_metrics.png`
 - `reports/figures/modeling/best_model_confusion_matrix.png`
 - `reports/figures/modeling/random_forest_feature_importance.png`
 - `reports/figures/modeling/roc_curves.png`
