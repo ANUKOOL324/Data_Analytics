@@ -34,7 +34,8 @@ This folder contains the reusable outputs generated from the banking customer an
 | `tables/customer_segment_insights.csv` | Key customer segment observations. |
 | `tables/portfolio_kpis_readable.csv` | Main lending portfolio KPIs in readable business format. |
 | `tables/lending_risk_insights.csv` | Short business insights from the lending risk analysis. |
-| `tables/model_performance_metrics.csv` | Logistic Regression and Random Forest comparison for both feature sets. |
+| `tables/model_performance_metrics.csv` | Logistic Regression and tuned Random Forest comparison for both feature sets. |
+| `tables/random_forest_tuning_summary.csv` | Best Random Forest tuning settings from grouped cross-validation. |
 | `tables/random_forest_feature_importance.csv` | Features that influenced the final model most. |
 | `tables/high_risk_loan_predictions.csv` | Highest-risk loans identified by the model. |
 
@@ -68,9 +69,9 @@ The model notebook uses a customer-wise split with zero overlapping customers be
 | Feature set | Model | Accuracy | Precision | Recall | F1 | ROC-AUC | False negatives | False positives |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
 | Approval-style | Logistic Regression | 0.7431 | 0.2860 | 0.6933 | 0.4050 | 0.7949 | 115 | 649 |
-| Approval-style | Random Forest | 0.7966 | 0.3333 | 0.6133 | 0.4319 | 0.8004 | 145 | 460 |
+| Approval-style | Random Forest | 0.7717 | 0.3086 | 0.6533 | 0.4192 | 0.7983 | 130 | 549 |
 | Monitoring | Logistic Regression | 0.9677 | 0.8252 | 0.9440 | 0.8806 | 0.9950 | 21 | 75 |
-| Monitoring | Random Forest | 0.9475 | 0.7160 | 0.9680 | 0.8231 | 0.9855 | 12 | 144 |
+| Monitoring | Random Forest | 0.9482 | 0.7188 | 0.9680 | 0.8250 | 0.9861 | 12 | 142 |
 
 Final selected model: **Monitoring Random Forest**.
 

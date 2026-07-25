@@ -474,14 +474,25 @@ Two feature sets are used:
 
 Monitoring models must not be presented as automatic loan-approval models because they include active repayment-warning information.
 
+### Random Forest Tuning
+
+I used `RandomizedSearchCV` for Random Forest tuning because it checks useful parameter combinations without making the notebook too slow.
+
+Tuning was done only inside the training customers using grouped cross-validation. The final test customers were not used during tuning.
+
+| Feature set | Best CV recall | Trees | Max depth | Min leaf | Max features |
+|---|---:|---:|---|---:|---|
+| Approval-style | 0.6319 | 200 | 6 | 10 | sqrt |
+| Monitoring | 0.9791 | 500 | None | 20 | sqrt |
+
 ### Model Performance
 
 | Feature set | Model | Accuracy | Precision | Recall | F1-score | ROC-AUC | False negatives | False positives |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
 | Approval-style | Logistic Regression | 0.7431 | 0.2860 | 0.6933 | 0.4050 | 0.7949 | 115 | 649 |
-| Approval-style | Random Forest | 0.7966 | 0.3333 | 0.6133 | 0.4319 | 0.8004 | 145 | 460 |
+| Approval-style | Random Forest | 0.7717 | 0.3086 | 0.6533 | 0.4192 | 0.7983 | 130 | 549 |
 | Monitoring | Logistic Regression | 0.9677 | 0.8252 | 0.9440 | 0.8806 | 0.9950 | 21 | 75 |
-| Monitoring | Random Forest | 0.9475 | 0.7160 | 0.9680 | 0.8231 | 0.9855 | 12 | 144 |
+| Monitoring | Random Forest | 0.9482 | 0.7188 | 0.9680 | 0.8250 | 0.9861 | 12 | 142 |
 
 ### Final Model Choice
 
@@ -500,15 +511,16 @@ Most important Random Forest features:
 
 | Feature | Importance |
 |---|---:|
-| `days_past_due` | 36.92% |
-| `risk_band` | 24.98% |
-| `missed_payments_12m` | 15.93% |
-| `debt_to_income_ratio` | 3.81% |
-| `credit_score` | 3.66% |
+| `days_past_due` | 38.99% |
+| `risk_band` | 23.20% |
+| `missed_payments_12m` | 16.78% |
+| `debt_to_income_ratio` | 3.90% |
+| `credit_score` | 3.34% |
 
 Important output files:
 
 - `reports/tables/model_default_target_summary.csv`
+- `reports/tables/random_forest_tuning_summary.csv`
 - `reports/tables/model_performance_metrics.csv`
 - `reports/tables/random_forest_feature_importance.csv`
 - `reports/tables/high_risk_loan_predictions.csv`
@@ -547,7 +559,7 @@ The `reports/` folder contains reusable CSV summaries and chart images generated
 
 Current report outputs:
 
-- 51 CSV tables
+- 52 CSV tables
 - 35 figure files
 - `reports/README.md` explains which report files to read first
 
