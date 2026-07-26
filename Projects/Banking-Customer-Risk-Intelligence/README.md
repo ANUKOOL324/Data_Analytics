@@ -4,19 +4,18 @@ An end-to-end analytics project using Python, PostgreSQL, Power BI and machine l
 
 ## Business Problem
 
-A bank needs to understand two connected areas:
+Before approving a loan, a bank must determine whether a customer has the financial capacity to repay it and whether the proposed lending creates an acceptable level of risk. Income alone is not enough for this decision. The bank also needs to consider existing debt obligations, deposit strength, credit score, debt-to-income ratio (DTI), collateral coverage, loan-to-value ratio (LTV), customer relationship and the performance of similar loans in its portfolio.
 
-1. **Customer portfolio value**: which customer segments hold deposits and support relationship value?
-2. **Lending risk**: where is loan exposure concentrated, which products show higher default rates, and which active loans should be reviewed first?
+These signals are often stored across separate customer, account and lending records. When they are reviewed independently, the bank may approve unaffordable credit, overlook financially strong customers, build excessive exposure in risky products or segments, and identify repayment problems too late.
 
-The analysis answers:
+This project combines customer profiles, banking relationships, financial balances, loan details and repayment-risk indicators to support two connected decisions:
 
-- Which customer and relationship segments hold the strongest deposit balances?
-- Which loan products create the largest exposure and expected loss?
-- How do DTI, credit score, LTV and delinquency relate to default?
-- Which active loans receive the highest predicted default probability?
+1. **Pre-lending assessment:** evaluate customer affordability, leverage, collateral coverage and financial relationship before extending additional credit.
+2. **Post-lending monitoring:** measure portfolio exposure, default rates and expected loss, then identify active loans that require earlier review.
 
-This is a portfolio-analysis and monitoring project. It does **not** automate loan approval or prove that a customer will default.
+The analysis shows where deposits and customer value are concentrated, which lending products and customer segments carry the greatest risk, and how DTI, credit score, LTV, missed payments and delinquency relate to default. A tuned Random Forest model then assigns default probabilities to active loans so risk teams can prioritize investigation and intervention.
+
+The result is a decision-support workflow that helps the bank lend more responsibly, monitor its portfolio consistently and direct attention toward the customers and loans that need it most.
 
 ## Dataset
 
