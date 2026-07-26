@@ -258,11 +258,12 @@ table banking
 
 		annotation SummarizationSetBy = Automatic
 
-	column BRId
+	column Customer_Segment
 		dataType: string
+		sortByColumn: Customer_Segment_Order
 		lineageTag: 6724e5cc-af2c-46d5-b723-e59f54303c2a
 		summarizeBy: none
-		sourceColumn: BRId
+		sourceColumn: Customer_Segment
 
 		annotation SummarizationSetBy = Automatic
 
@@ -271,6 +272,15 @@ table banking
 		lineageTag: dd51d1d3-2233-453d-b82b-4b942ed86414
 		summarizeBy: none
 		sourceColumn: GenderId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer_Segment_Order
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: Customer_Segment_Order
 
 		annotation SummarizationSetBy = Automatic
 
@@ -302,10 +312,12 @@ table banking
 				    #"Added Conditional Column" = Table.AddColumn(#"Replaced Value1", "income_band", each if [Estimated_Income] >= 300000 then "High" else if [Estimated_Income] >= 100000 then "Medium" else "Low"),
 				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Conditional Column",{{"BRId", type text}}),
 				    #"Replaced Value2" = Table.ReplaceValue(#"Changed Type1","1","Retail",Replacer.ReplaceText,{"BRId"}),
-				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","2","Institutional",Replacer.ReplaceText,{"BRId"}),
-				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","3","Private Bank",Replacer.ReplaceText,{"BRId"}),
-				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","4","Commercial",Replacer.ReplaceText,{"BRId"}),
-				    #"Changed Type2" = Table.TransformColumnTypes(#"Replaced Value5",{{"IAId", type text}})
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","2","Priority",Replacer.ReplaceText,{"BRId"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","3","Private Banking",Replacer.ReplaceText,{"BRId"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","4","Priority",Replacer.ReplaceText,{"BRId"}),
+				    #"Renamed Customer Segment" = Table.RenameColumns(#"Replaced Value5",{{"BRId", "Customer_Segment"}}),
+				    #"Added Customer Segment Order" = Table.AddColumn(#"Renamed Customer Segment", "Customer_Segment_Order", each if [Customer_Segment] = "Retail" then 1 else if [Customer_Segment] = "Priority" then 2 else if [Customer_Segment] = "Private Banking" then 3 else 4, Int64.Type),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Added Customer Segment Order",{{"IAId", type text}})
 				in
 				    #"Changed Type2"
 

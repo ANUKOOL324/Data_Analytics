@@ -1,0 +1,4 @@
+customer_segment,loans,customers,total_exposure,median_income,median_deposits,median_dti,median_credit_score,default_rate,expected_loss
+Retail,6277,5401,9776319506.21,754378.82,2006021.9,0.527,679.0,9.86,656429588.35
+Priority,2908,2505,6855644240.04,967053.525,2657838.26,0.63,669.5,17.33,728186354.46
+Private Banking,2726,2373,7975193132.94,1089020.405,2957191.09,0.591,670.0,13.02,607036849.86

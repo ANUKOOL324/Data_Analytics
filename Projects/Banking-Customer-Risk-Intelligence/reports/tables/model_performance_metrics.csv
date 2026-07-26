@@ -1,5 +1,5 @@
 feature_set,model,accuracy,precision,recall,f1_score,roc_auc,false_negatives,false_positives
-Approval-style,Logistic Regression,0.7431,0.286,0.6933,0.405,0.7949,115,649
-Approval-style,Random Forest,0.7717,0.3086,0.6533,0.4192,0.7983,130,549
-Monitoring,Logistic Regression,0.9677,0.8252,0.944,0.8806,0.995,21,75
-Monitoring,Random Forest,0.9482,0.7188,0.968,0.825,0.9861,12,142
+Approval-style,Logistic Regression,0.7438,0.2862,0.6907,0.4047,0.7958,116,646
+Approval-style,Random Forest,0.7767,0.3155,0.6587,0.4266,0.7975,128,536
+Monitoring,Logistic Regression,0.9677,0.8252,0.944,0.8806,0.9951,21,75
+Monitoring,Random Forest,0.9492,0.7213,0.9733,0.8286,0.9865,10,141

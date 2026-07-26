@@ -1,0 +1,16 @@
+customer_segment,income_band,customers,median_income,median_deposits
+Retail,Affluent,20,3225432.275,10287755.8
+Retail,High,609,1795333.44,5814771.19
+Retail,Low,752,330786.155,792817.2649999999
+Retail,Lower Middle,3493,594404.91,1570761.93
+Retail,Middle,2947,1018567.93,2920142.75
+Priority,Affluent,36,3641279.7649999997,11733476.88
+Priority,High,650,1844244.53,5664273.375
+Priority,Low,140,351098.595,869120.38
+Priority,Lower Middle,1144,631316.695,1594514.8
+Priority,Middle,1713,1065672.14,2936109.26
+Private Banking,Affluent,88,3511634.52,11936935.735
+Private Banking,High,901,1850874.2,5545397.1
+Private Banking,Low,66,346666.65,854470.645
+Private Banking,Lower Middle,804,638740.8300000001,1620570.545
+Private Banking,Middle,1637,1082696.85,2940971.1

@@ -8,12 +8,11 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["banking","banking-realtionships","gender","investment-advisiors"]
+annotation PBI_QueryOrder = ["banking","gender","investment-advisiors"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
 ref table banking
-ref table banking-realtionships
 ref table gender
 ref table investment-advisiors
 ref table DateTableTemplate_b4270bf3-5551-4f69-8cea-c7ddc32194f9

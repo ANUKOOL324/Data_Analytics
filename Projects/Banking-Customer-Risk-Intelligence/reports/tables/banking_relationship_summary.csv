@@ -1,5 +1,0 @@
-banking_relationship,customers,median_income,median_deposits,median_credit_utilization,median_tenure_years,customer_pct
-Retail,7821,753706.67,2012534.87,0.218,14.3,52.14
-Private Bank,3496,1108769.585,2957191.09,0.214,14.3,23.31
-Commercial,2082,995834.66,2691762.33,0.21,14.0,13.88
-Institutional,1601,908400.33,2479798.47,0.218,14.1,10.67

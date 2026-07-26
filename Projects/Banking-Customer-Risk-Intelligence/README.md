@@ -8,7 +8,7 @@ Before approving a loan, a bank must determine whether a customer has the financ
 
 These signals are often stored across separate customer, account and lending records. When they are reviewed independently, the bank may approve unaffordable credit, overlook financially strong customers, build excessive exposure in risky products or segments, and identify repayment problems too late.
 
-This project combines customer profiles, banking relationships, financial balances, loan details and repayment-risk indicators to support two connected decisions:
+This project combines customer profiles, service segments, financial balances, loan details and repayment-risk indicators to support two connected decisions:
 
 1. **Pre-lending assessment:** evaluate customer affordability, leverage, collateral coverage and financial relationship before extending additional credit.
 2. **Post-lending monitoring:** measure portfolio exposure, default rates and expected loss, then identify active loans that require earlier review.
@@ -38,7 +38,7 @@ The result is a decision-support workflow that helps the bank lend more responsi
 
 | File | Rows | Purpose |
 |---|---:|---|
-| `data/raw/customers.csv` | 15,000 | Customer identity, demographics, occupation and bank relationship. |
+| `data/raw/customers.csv` | 15,000 | Customer identity, demographics, occupation and individual service segment. |
 | `data/raw/financial_profile.csv` | 15,000 | Income, deposits, card balances, debt payments and financial position. |
 | `data/raw/loans.csv` | 11,911 | Loan type, amount, term, rate, collateral and purpose. |
 | `data/raw/loan_risk.csv` | 11,911 | Credit score, DTI, LTV, missed payments, days past due, repayment status and default target. |
@@ -49,6 +49,22 @@ The result is a decision-support workflow that helps the bank lend more responsi
 |---|---|---|
 | `data/processed/banking_customer_profiles_clean.csv` | One row per customer | Customer and segment analysis. |
 | `data/processed/banking_customer_loan_analytics_clean.csv` | One row per loan | Exposure, repayment-risk and modelling analysis. |
+### Portfolio scope
+
+Every customer record represents an individual. `customer_segment` describes
+the service tier through which the bank manages that person:
+
+| Segment | Definition |
+|---|---|
+| Retail | Regular individual customers using standard deposits, cards and personal lending products. |
+| Priority | Affluent individual customers receiving enhanced service, preferential benefits or a dedicated relationship manager. |
+| Private Banking | High-value individual customers receiving personalized banking, wealth and relationship-management services. |
+
+Priority and Private Banking are service tiers, not separate legal customer
+types. `loyalty_classification` remains a separate measure of engagement.
+Business Loans are business-related products held by individual borrowers;
+corporate and institutional banking are outside this project's scope.
+
 ## Data Quality
 
 The raw files intentionally contain missing values, inconsistent category labels and financial outliers so the preparation stage reflects realistic cleaning work.
@@ -77,8 +93,8 @@ The remaining LTV values are logically missing for unsecured loans. Financial ou
 | High-risk loans are the main review group | 2,144 loans with a 53.82% default rate | Review resources should focus first on the High risk band. |
 | DTI above 60% shows greater repayment pressure | 5,303 loans with a 21.78% default rate | Income alone is not enough; existing debt commitments materially affect repayment capacity. |
 | Recent delinquency is a strong monitoring signal | 6,340 recently delinquent loans with a 23.31% default rate | Missed payments and days past due are useful for active-loan early warnings, not initial approval. |
-| Commercial relationships have the highest segment default rate | 1,614 loans with a 22.80% default rate | Commercial exposure should be reviewed by product, collateral and debt pressure. |
-| Private Bank and Platinum customers hold stronger deposits | Median deposits: INR 2.96M for Private Bank and INR 4.90M for Platinum customers | These groups are important for deposit stability and relationship management. |
+| Priority customers have the highest segment default rate | 2,908 loans; 17.33% default rate; INR 68.56 crore exposure; INR 72.82 crore expected loss | Priority loans need closer review, but segment alone should not determine a credit decision. |
+| Private Banking customers hold the strongest median deposits | 3,496 customers; median deposits INR 2.96M; median income INR 1.11M | High-value service tiers are important for deposit stability and relationship management. |
 
 ## Recommended Actions
 
@@ -87,7 +103,7 @@ The remaining LTV values are logically missing for unsecured loans. Financial ou
 | Exposure management | Monitor large Home Loans separately because moderate default rates still create large expected loss. |
 | Product risk | Apply closer review to Business Loans, especially when DTI, credit score or collateral strength is weak. |
 | Early warning | Prioritize active loans with missed payments, days past due, High risk classification or DTI above 60%. |
-| Customer management | Protect high-deposit Private Bank and Platinum relationships while monitoring any risky borrowing attached to them. |
+| Customer management | Protect high-deposit Private Banking and Platinum customers while monitoring any risky borrowing attached to them. |
 | Model use | Use predicted probability to rank loans for manual review; do not use it as an automatic approval decision. |
 | Dashboard use | Read exposure, default rate and expected loss together rather than relying on loan counts alone. |
 
@@ -169,7 +185,7 @@ Primary outputs:
 
 `notebooks/02_customer_and_segment_eda.ipynb`
 
-The customer analysis covers demographics, employment, relationship type, loyalty, income, deposits, credit utilization and advisor portfolios.
+The customer analysis covers demographics, employment, customer segment, loyalty, income, deposits, credit utilization and advisor portfolios.
 
 Selected results:
 
@@ -180,14 +196,17 @@ Selected results:
 | Median deposits | INR 2,344,104 |
 | Average bank tenure | 14.30 years |
 | Largest age group | 46-55 years, 4,351 customers |
-| Largest relationship segment | Retail, 7,821 customers |
+| Largest customer segment | Retail, 7,821 customers (52.14%) |
 | Most common credit-utilization band | Low, 10,257 customers |
 
 Primary outputs:
 
 - `reports/tables/customer_kpis.csv`
 - `reports/tables/customer_segment_insights.csv`
-- `reports/tables/banking_relationship_summary.csv`
+- `reports/tables/customer_segment_summary.csv`
+- `reports/tables/segment_income_summary.csv`
+- `reports/tables/segment_loyalty_matrix.csv`
+- `reports/tables/advisor_segment_summary.csv`
 - `reports/tables/loyalty_summary.csv`
 - `reports/figures/customer_segments/`
 
@@ -195,7 +214,7 @@ Primary outputs:
 
 `notebooks/03_financial_exposure_and_risk_eda.ipynb`
 
-The lending analysis compares exposure, repayment status, default rate and expected loss by loan type, customer relationship, risk band, DTI, credit score, LTV and delinquency status. It uses distribution plots, boxplots, scatter plots, donut charts, grouped bars and correlation heatmaps.
+The lending analysis compares exposure, repayment status, default rate and expected loss by loan type, customer segment, risk band, DTI, credit score, LTV and delinquency status. It uses distribution plots, boxplots, scatter plots, donut charts, grouped bars and correlation heatmaps.
 
 Primary outputs:
 
@@ -244,24 +263,38 @@ Logistic Regression is retained as an interpretable baseline. Random Forest is t
 
 | Feature set | Model | Precision | Recall | F1 | ROC-AUC | False negatives | False positives |
 |---|---|---:|---:|---:|---:|---:|---:|
-| Approval-style | Logistic Regression | 0.2860 | 0.6933 | 0.4050 | 0.7949 | 115 | 649 |
-| Approval-style | Random Forest | 0.3086 | 0.6533 | 0.4192 | 0.7983 | 130 | 549 |
-| Monitoring | Logistic Regression | 0.8252 | 0.9440 | 0.8806 | 0.9950 | 21 | 75 |
-| Monitoring | Random Forest | 0.7188 | **0.9680** | 0.8250 | 0.9861 | **12** | 142 |
+| Approval-style | Logistic Regression | 0.2862 | 0.6907 | 0.4047 | 0.7958 | 116 | 646 |
+| Approval-style | Random Forest | 0.3155 | 0.6587 | 0.4266 | 0.7975 | 128 | 536 |
+| Monitoring | Logistic Regression | 0.8252 | 0.9440 | 0.8806 | 0.9951 | 21 | 75 |
+| Monitoring | Random Forest | 0.7213 | **0.9733** | 0.8286 | 0.9865 | **10** | 141 |
 
-The selected model is the **Monitoring Random Forest** because this project prioritizes catching default-risk loans. On the test set it catches **363 of 375 defaults** and misses **12**. This choice accepts more false alerts than Monitoring Logistic Regression in exchange for fewer missed defaults.
+The selected model is the **Monitoring Random Forest** because this project prioritizes catching default-risk loans. On the test set it catches **365 of 375 defaults** and misses **10**. This choice accepts more false alerts than Monitoring Logistic Regression in exchange for fewer missed defaults.
 
 Top Random Forest drivers:
 
 | Feature | Importance |
 |---|---:|
-| `days_past_due` | 38.99% |
-| `risk_band` | 23.20% |
-| `missed_payments_12m` | 16.78% |
-| `debt_to_income_ratio` | 3.90% |
-| `credit_score` | 3.34% |
+| `days_past_due` | 42.32% |
+| `risk_band` | 23.42% |
+| `missed_payments_12m` | 14.46% |
+| `debt_to_income_ratio` | 4.13% |
+| `credit_score` | 3.37% |
 
 Because the strongest drivers include repayment behaviour, the selected model is an **active-loan monitoring model**, not a before-approval credit model.
+
+#### Business action plan from the model
+
+The model output should be used as a review queue, not as an automatic reject list.
+
+| Priority | Who to review first | What the bank team should do |
+|---|---|---|
+| 1 | Loans in the highest predicted-probability group, especially with high `days_past_due` or recent missed payments | Contact the borrower, review repayment history, check whether restructuring, collection follow-up or account monitoring is needed. |
+| 2 | High-exposure Home Loans with elevated default probability | Review collateral coverage, LTV, deposit support and repayment capacity because even moderate risk can create large expected loss. |
+| 3 | Business Loans with high DTI, weak credit score or unsecured collateral | Send for closer credit review before increasing exposure; monitor repayment behaviour more frequently. |
+| 4 | Priority or Private Banking customers with risky active loans | Balance relationship value with credit risk; involve the relationship/advisor team before taking action. |
+| 5 | Low-probability loans with clean repayment behaviour | Keep in normal monitoring so review effort stays focused on the riskiest accounts. |
+
+This turns the Random Forest result into a simple operating workflow: **rank active loans, review the riskiest cases first, then decide the action manually using customer context and portfolio exposure.**
 
 Primary outputs:
 
@@ -278,7 +311,7 @@ The SQL layer validates the imported clean datasets and reproduces the main cust
 | SQL file | Purpose |
 |---|---|
 | `sql/01_schema_and_validation.sql` | Checks table structure, rows, duplicates, missing values, ranges and customer-loan joins. |
-| `sql/02_customer_segment_analysis.sql` | Analyzes age, gender, relationship, loyalty, income and advisor segments. |
+| `sql/02_customer_segment_analysis.sql` | Analyzes age, gender, customer segment, loyalty, income and advisor portfolios. |
 | `sql/03_financial_and_risk_analysis.sql` | Analyzes exposure, repayment, DTI, LTV, default rates and expected loss. |
 
 Expected PostgreSQL tables:
@@ -296,11 +329,15 @@ psql -d banking_project -f sql/03_financial_and_risk_analysis.sql
 
 ## Reports
 
-`reports/` contains **52 CSV summary tables** and **35 PNG figures** generated by the notebooks. Start with `reports/README.md` for a guided list of the most useful outputs.
+`reports/` contains **54 CSV summary tables** and **35 PNG figures** generated by the notebooks. Start with `reports/README.md` for a guided list of the most useful outputs.
 
 ## Power BI Dashboard
 
-The Power BI dashboard is included under `dashboard/` as PBIX and PBIP files. It presents customer, loan and deposit analysis across four interactive report pages.
+The Power BI dashboard is included under `dashboard/` as PBIX and PBIP files.
+The text-based PBIP definitions use the current customer-segment terminology.
+The binary PBIX and screenshots are retained as portfolio artifacts and must
+be refreshed in Power BI Desktop after loading the regenerated processed CSVs
+or PostgreSQL tables.
 
 <details>
 <summary>Open dashboard screenshots</summary>

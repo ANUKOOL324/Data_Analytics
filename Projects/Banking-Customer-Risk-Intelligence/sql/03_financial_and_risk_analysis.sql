@@ -158,9 +158,9 @@ GROUP BY has_recent_delinquency
 ORDER BY has_recent_delinquency DESC;
 
 
--- 10. Exposure and risk by banking relationship.
+-- 10. Exposure and risk by individual customer service segment.
 SELECT
-    banking_relationship,
+    customer_segment,
     COUNT(*) AS loans,
     COUNT(DISTINCT customer_id) AS customers,
     ROUND(SUM(loan_amount)::numeric / 10000000, 2) AS exposure_crore,
@@ -169,8 +169,14 @@ SELECT
     ROUND(AVG(debt_to_income_ratio)::numeric, 2) AS average_dti,
     ROUND(SUM(expected_loss_amount)::numeric / 10000000, 2) AS expected_loss_crore
 FROM public.banking_customer_loan_analytics_clean
-GROUP BY banking_relationship
-ORDER BY exposure_crore DESC;
+GROUP BY customer_segment
+ORDER BY
+    CASE customer_segment
+        WHEN 'Retail' THEN 1
+        WHEN 'Priority' THEN 2
+        WHEN 'Private Banking' THEN 3
+        ELSE 4
+    END;
 
 
 -- 11. Income band and risk band matrix.

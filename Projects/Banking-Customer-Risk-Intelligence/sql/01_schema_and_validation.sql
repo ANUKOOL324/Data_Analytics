@@ -98,7 +98,7 @@ SELECT
     COUNT(*) FILTER (WHERE annual_income IS NULL) AS missing_annual_income,
     COUNT(*) FILTER (WHERE occupation IS NULL OR BTRIM(occupation) = '') AS missing_occupation,
     COUNT(*) FILTER (WHERE employment_status IS NULL OR BTRIM(employment_status) = '') AS missing_employment_status,
-    COUNT(*) FILTER (WHERE banking_relationship IS NULL OR BTRIM(banking_relationship) = '') AS missing_banking_relationship,
+    COUNT(*) FILTER (WHERE customer_segment IS NULL OR BTRIM(customer_segment) = '') AS missing_customer_segment,
     COUNT(*) FILTER (WHERE total_deposit_balance IS NULL) AS missing_total_deposit_balance,
     COUNT(*) FILTER (WHERE credit_utilization_ratio IS NULL) AS missing_credit_utilization_ratio
 FROM public.banking_customer_profiles_clean;
@@ -181,3 +181,42 @@ FROM public.banking_customer_profiles_clean AS customer
 LEFT JOIN public.banking_customer_loan_analytics_clean AS loan
     ON customer.customer_id = loan.customer_id
 WHERE loan.customer_id IS NULL;
+
+
+-- 15. Validate the individual-customer service segments.
+SELECT
+    customer_segment,
+    COUNT(*) AS customers,
+    ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 2) AS customer_percentage
+FROM public.banking_customer_profiles_clean
+GROUP BY customer_segment
+ORDER BY
+    CASE customer_segment
+        WHEN 'Retail' THEN 1
+        WHEN 'Priority' THEN 2
+        WHEN 'Private Banking' THEN 3
+        ELSE 4
+    END;
+
+
+-- 16. Confirm only the three allowed segments are present.
+SELECT
+    COUNT(*) FILTER (
+        WHERE customer_segment NOT IN ('Retail', 'Priority', 'Private Banking')
+           OR customer_segment IS NULL
+    ) AS invalid_customer_segment_rows,
+    COUNT(*) FILTER (WHERE customer_segment = 'Commercial') AS commercial_rows,
+    COUNT(*) FILTER (WHERE customer_segment = 'Institutional') AS institutional_rows
+FROM public.banking_customer_profiles_clean;
+
+
+-- 17. Confirm the legacy banking_relationship column is absent.
+SELECT
+    COUNT(*) AS legacy_column_count
+FROM information_schema.columns
+WHERE table_schema = 'public'
+  AND table_name IN (
+      'banking_customer_profiles_clean',
+      'banking_customer_loan_analytics_clean'
+  )
+  AND column_name = 'banking_relationship';

@@ -19,16 +19,16 @@ repayment_status,category,0,Current repayment status.
 default_flag,int64,0,"1 if defaulted, otherwise 0."
 risk_band,category,0,"Risk category: Low, Medium, or High."
 expected_loss_amount,float64,0,Estimated loss amount based on risk and exposure.
-customer_name,object,0,Synthetic customer name.
+customer_name,object,0,Customer name.
 age,int64,0,Customer age in years.
 gender,category,0,Customer gender.
 nationality,category,0,Customer nationality.
-occupation,category,0,Customer occupation or business category.
-employment_status,category,0,Employment status.
+occupation,category,0,Customer occupation.
+employment_status,category,0,Customer employment status.
 city,category,0,Engineered or supporting analysis field.
 state,category,0,Engineered or supporting analysis field.
-banking_relationship,category,0,"Customer relationship segment such as Retail, Private Bank, Commercial, or Institutional."
-loyalty_classification,category,0,Customer loyalty tier.
+customer_segment,category,0,"Individual customer service segment: Retail, Priority, or Private Banking."
+loyalty_classification,category,0,"Customer engagement or loyalty tier, separate from service segment."
 fee_structure,category,0,Engineered or supporting analysis field.
 investment_advisor,category,0,Assigned advisor or relationship team.
 joined_bank,datetime64[ns],0,Engineered or supporting analysis field.
@@ -40,7 +40,7 @@ savings_balance,float64,0,Engineered or supporting analysis field.
 credit_card_limit,float64,0,Engineered or supporting analysis field.
 credit_card_balance,float64,0,Engineered or supporting analysis field.
 credit_utilization_ratio,float64,0,Engineered or supporting analysis field.
-business_lending,float64,0,Engineered or supporting analysis field.
+business_lending,float64,0,Existing business-related borrowing held by an individual proprietor or self-employed customer.
 existing_monthly_debt_payment,float64,0,Engineered or supporting analysis field.
 total_deposit_balance,float64,0,"Combined deposit, checking, and savings balance."
 deposit_to_income_ratio,float64,0,Engineered or supporting analysis field.

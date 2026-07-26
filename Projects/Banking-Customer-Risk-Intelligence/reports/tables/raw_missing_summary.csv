@@ -5,6 +5,6 @@ customers,employment_status,120
 financial_profile,credit_utilization_ratio,180
 financial_profile,savings_balance,90
 financial_profile,checking_balance,60
-loans,interest_rate,95
+loans,interest_rate,0
 loan_risk,credit_score,214
 loan_risk,debt_to_income_ratio,119

@@ -21,7 +21,7 @@ This folder contains the reusable outputs generated from the banking customer an
 |---|---|
 | `tables/` | CSV summaries used in the notebooks, SQL comparison, README, and interview explanation. |
 | `figures/data_quality/` | Data quality and outlier visuals from the first notebook. |
-| `figures/customer_segments/` | Customer profile, relationship, loyalty, and segment visuals. |
+| `figures/customer_segments/` | Customer profile, service-segment, loyalty, and advisor visuals. |
 | `figures/financial_exposure/` | Loan exposure, repayment, default-risk, DTI, LTV, and risk-band visuals. |
 | `figures/modeling/` | Logistic Regression and Random Forest model evaluation charts. |
 
@@ -31,7 +31,9 @@ This folder contains the reusable outputs generated from the banking customer an
 |---|---|
 | `tables/data_quality_summary.csv` | Main data quality findings after cleaning and validation. |
 | `tables/customer_kpis.csv` | Customer-level summary KPIs. |
-| `tables/customer_segment_insights.csv` | Key customer segment observations. |
+| `tables/customer_segment_summary.csv` | Customer counts, income, deposits, utilization, and tenure by service segment. |
+| `tables/customer_segment_risk_summary.csv` | Loan exposure, default rate, DTI, credit score, and expected loss by service segment. |
+| `tables/business_loan_borrower_consistency.csv` | Business Loan occupation and employment audit without changing source records. |
 | `tables/portfolio_kpis_readable.csv` | Main lending portfolio KPIs in readable business format. |
 | `tables/lending_risk_insights.csv` | Short business insights from the lending risk analysis. |
 | `tables/model_performance_metrics.csv` | Logistic Regression and tuned Random Forest comparison for both feature sets. |
@@ -68,14 +70,26 @@ The model notebook uses a customer-wise split with zero overlapping customers be
 
 | Feature set | Model | Accuracy | Precision | Recall | F1 | ROC-AUC | False negatives | False positives |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
-| Approval-style | Logistic Regression | 0.7431 | 0.2860 | 0.6933 | 0.4050 | 0.7949 | 115 | 649 |
-| Approval-style | Random Forest | 0.7717 | 0.3086 | 0.6533 | 0.4192 | 0.7983 | 130 | 549 |
-| Monitoring | Logistic Regression | 0.9677 | 0.8252 | 0.9440 | 0.8806 | 0.9950 | 21 | 75 |
-| Monitoring | Random Forest | 0.9482 | 0.7188 | 0.9680 | 0.8250 | 0.9861 | 12 | 142 |
+| Approval-style | Logistic Regression | 0.7438 | 0.2862 | 0.6907 | 0.4047 | 0.7958 | 116 | 646 |
+| Approval-style | Random Forest | 0.7767 | 0.3155 | 0.6587 | 0.4266 | 0.7975 | 128 | 536 |
+| Monitoring | Logistic Regression | 0.9677 | 0.8252 | 0.9440 | 0.8806 | 0.9951 | 21 | 75 |
+| Monitoring | Random Forest | 0.9492 | 0.7213 | 0.9733 | 0.8286 | 0.9865 | 10 | 141 |
 
 Final selected model: **Monitoring Random Forest**.
 
 It was selected because default-risk monitoring prioritizes recall and fewer false negatives. Logistic Regression is a strong baseline, but it missed more actual default loans on the customer-wise test set.
+
+## Model Action Plan
+
+Use `tables/high_risk_loan_predictions.csv` as the first review queue. Start with the highest predicted default probabilities, then check exposure, DTI, credit score, days past due, missed payments, collateral and customer segment before deciding any action.
+
+| Priority | Review focus | Business action |
+|---|---|---|
+| 1 | Highest probability active loans | Immediate manual review by credit/risk team. |
+| 2 | High exposure plus elevated probability | Check expected loss, collateral and deposit support. |
+| 3 | Business Loans with weak DTI or credit score | Closer underwriting review before increasing exposure. |
+| 4 | Valuable customer segments with risky loans | Coordinate with advisor or relationship team. |
+| 5 | Low probability, clean repayment loans | Keep in routine monitoring. |
 
 ## Strong Business Findings
 
@@ -85,9 +99,13 @@ It was selected because default-risk monitoring prioritizes recall and fewer fal
 | Highest default-rate product | Business Loan at 30.79% |
 | Highest risk band default rate | High at 53.82% |
 | Highest DTI band default rate | >60% at 21.78% |
+| Largest customer segment | Retail: 7,821 customers (52.14%) |
+| Highest segment default rate | Priority: 17.33% across 2,908 loans |
+| Highest segment median deposits | Private Banking: INR 2.96M |
 
 ## Notes
 
 - These reports are generated outputs, not raw data.
-- The project now uses customer profile, financial profile, loan, and loan-risk fields.
+- Every customer is an individual; customer segment is a service tier, separate from loyalty classification.
+- Business Loans are individual-held business-related loans. Only 672 of 1,929 Business Loans have Self Employed or Business Owner employment status, so the consistency table documents the remaining scope limitation.
 - Legacy single-table outputs from the earlier dataset were removed.

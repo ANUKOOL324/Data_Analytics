@@ -55,9 +55,9 @@ GROUP BY gender
 ORDER BY customers DESC;
 
 
--- 4. Customer count and balances by banking relationship.
+-- 4. Customer count and balances by individual service segment.
 SELECT
-    banking_relationship,
+    customer_segment,
     COUNT(*) AS customers,
     ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 2) AS customer_percentage,
     ROUND(AVG(customer_tenure_years)::numeric, 2) AS average_tenure_years,
@@ -65,8 +65,14 @@ SELECT
     ROUND(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY total_deposit_balance)::numeric, 2) AS median_deposits,
     ROUND(SUM(total_deposit_balance)::numeric, 2) AS total_deposits
 FROM public.banking_customer_profiles_clean
-GROUP BY banking_relationship
-ORDER BY total_deposits DESC;
+GROUP BY customer_segment
+ORDER BY
+    CASE customer_segment
+        WHEN 'Retail' THEN 1
+        WHEN 'Priority' THEN 2
+        WHEN 'Private Banking' THEN 3
+        ELSE 4
+    END;
 
 
 -- 5. Customer count and balances by loyalty classification.
@@ -147,25 +153,40 @@ ORDER BY
     END;
 
 
--- 10. Relationship and loyalty cross-tab.
+-- 10. Customer segment and loyalty cross-tab.
 SELECT
-    banking_relationship,
+    customer_segment,
     loyalty_classification,
     COUNT(*) AS customers,
     ROUND(AVG(total_deposit_balance)::numeric, 2) AS average_deposits,
     ROUND(AVG(annual_income)::numeric, 2) AS average_income
 FROM public.banking_customer_profiles_clean
-GROUP BY banking_relationship, loyalty_classification
-ORDER BY banking_relationship, customers DESC;
+GROUP BY customer_segment, loyalty_classification
+ORDER BY
+    CASE customer_segment
+        WHEN 'Retail' THEN 1
+        WHEN 'Priority' THEN 2
+        WHEN 'Private Banking' THEN 3
+        ELSE 4
+    END,
+    customers DESC;
 
 
--- 11. Advisor portfolio size and average customer value.
+-- 11. Advisor portfolio size and average customer value by segment.
 SELECT
     investment_advisor,
+    customer_segment,
     COUNT(*) AS assigned_customers,
     ROUND(SUM(total_deposit_balance)::numeric, 2) AS managed_deposits,
     ROUND(AVG(total_deposit_balance)::numeric, 2) AS average_customer_deposits,
     ROUND(AVG(annual_income)::numeric, 2) AS average_customer_income
 FROM public.banking_customer_profiles_clean
-GROUP BY investment_advisor
-ORDER BY managed_deposits DESC;
+GROUP BY investment_advisor, customer_segment
+ORDER BY
+    investment_advisor,
+    CASE customer_segment
+        WHEN 'Retail' THEN 1
+        WHEN 'Priority' THEN 2
+        WHEN 'Private Banking' THEN 3
+        ELSE 4
+    END;

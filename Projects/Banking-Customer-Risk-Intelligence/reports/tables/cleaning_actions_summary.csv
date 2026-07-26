@@ -1,6 +1,7 @@
 issue,action
 inconsistent text labels,stripped spaces and standardized casing
-missing annual income,recovered from monthly income or relationship median
+legacy customer segment labels,"mapped all customers to Retail, Priority, or Private Banking"
+missing annual income,recovered from monthly income or customer-segment median
 missing occupation/employment,filled with Unknown
 missing checking/savings balances,filled with median balance
 missing credit utilization,recomputed from card balance and limit

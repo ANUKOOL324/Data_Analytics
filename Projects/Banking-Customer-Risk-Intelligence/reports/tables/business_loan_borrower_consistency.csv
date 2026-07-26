@@ -1,0 +1,103 @@
+occupation,employment_status,business_loans,total_exposure,default_rate
+Retired,Salaried,71,168349222.84,36.62
+Doctor,Salaried,63,169569545.44,28.57
+Marketing Manager,Salaried,58,163966311.59,27.59
+Consultant,Salaried,58,156393112.36,27.59
+Self Employed,Salaried,58,144348527.1,32.76
+Accountant,Salaried,58,125399067.7,27.59
+Software Engineer,Salaried,53,146857142.7,45.28
+Operations Manager,Salaried,52,116515405.01,38.46
+Shop Owner,Salaried,50,135810984.35999998,24.0
+Architect,Salaried,50,126013998.36,26.0
+Factory Supervisor,Salaried,50,114523172.98,30.0
+Sales Manager,Salaried,49,155062422.35,34.69
+Lawyer,Salaried,49,123510830.65,32.65
+Government Officer,Salaried,47,113778394.25,27.66
+Business Owner,Salaried,46,125769009.17,41.3
+Nurse,Salaried,43,105816922.46000001,23.26
+Data Analyst,Salaried,33,75687453.57000001,18.18
+Teacher,Salaried,32,74072133.53,40.62
+Retired,Business Owner,28,92252787.31,28.57
+Self Employed,Business Owner,27,87958160.53,37.04
+Teacher,Self Employed,26,66989902.94,23.08
+Data Analyst,Self Employed,25,53125549.2,16.0
+Factory Supervisor,Self Employed,24,62513731.44,12.5
+Self Employed,Self Employed,23,72614533.38,39.13
+Software Engineer,Business Owner,22,86032627.94,36.36
+Factory Supervisor,Business Owner,22,71977505.0,31.82
+Doctor,Business Owner,21,72204698.9,33.33
+Teacher,Business Owner,21,71130856.74,33.33
+Business Owner,Business Owner,21,57195217.86,19.05
+Nurse,Self Employed,21,50877309.02,23.81
+Shop Owner,Self Employed,20,61362104.85,35.0
+Architect,Self Employed,20,56915125.46,35.0
+Doctor,Self Employed,20,43522335.690000005,30.0
+Sales Manager,Business Owner,19,66799878.29,36.84
+Accountant,Self Employed,19,47121199.99,10.53
+Operations Manager,Self Employed,19,45752480.46,15.79
+Accountant,Business Owner,18,59606876.71,16.67
+Data Analyst,Business Owner,18,50201678.2,50.0
+Sales Manager,Self Employed,18,46543154.71,33.33
+Marketing Manager,Self Employed,17,50562715.0,23.53
+Operations Manager,Business Owner,16,56263879.230000004,18.75
+Retired,Self Employed,16,49092463.05,37.5
+Consultant,Self Employed,16,38644209.98,31.25
+Business Owner,Self Employed,15,45474077.21,40.0
+Nurse,Business Owner,15,39294219.03,13.33
+Government Officer,Self Employed,14,46670078.05,28.57
+Government Officer,Business Owner,14,45497688.17,42.86
+Architect,Business Owner,14,38034998.19,35.71
+Marketing Manager,Business Owner,14,37562533.37,28.57
+Shop Owner,Business Owner,14,36134562.89,21.43
+Lawyer,Self Employed,14,31212500.4,21.43
+Data Analyst,Retired,14,25425743.66,57.14
+Self Employed,Contract,14,23730657.77,14.29
+Consultant,Business Owner,13,35565824.15,46.15
+Software Engineer,Self Employed,13,31204980.28,15.38
+Accountant,Retired,13,28460658.95,30.77
+Nurse,Contract,13,21921578.67,23.08
+Factory Supervisor,Retired,13,17821310.25,38.46
+Lawyer,Retired,12,24123662.64,58.33
+Teacher,Retired,12,17942305.98,50.0
+Accountant,Contract,11,23400213.25,45.45
+Retired,Contract,11,22100842.13,45.45
+Software Engineer,Contract,11,20568384.32,27.27
+Government Officer,Retired,11,19447036.91,18.18
+Sales Manager,Retired,11,15862856.200000001,0.0
+Lawyer,Business Owner,10,34664025.31,60.0
+Unknown,Salaried,10,23240035.84,30.0
+Shop Owner,Retired,10,14223490.3,30.0
+Shop Owner,Contract,9,23685048.35,22.22
+Business Owner,Retired,9,21966994.88,55.56
+Self Employed,Retired,9,18735309.84,33.33
+Doctor,Retired,9,17561385.66,33.33
+Doctor,Contract,9,16909237.45,22.22
+Business Owner,Contract,9,13827627.77,44.44
+Data Analyst,Contract,8,20677295.669999998,50.0
+Teacher,Contract,8,15436148.83,12.5
+Consultant,Contract,7,13778930.620000001,42.86
+Marketing Manager,Retired,7,13542359.09,28.57
+Sales Manager,Contract,7,12385313.31,28.57
+Consultant,Retired,7,10965562.45,28.57
+Factory Supervisor,Contract,7,10254095.18,42.86
+Nurse,Retired,7,9653151.78,42.86
+Architect,Contract,6,18499575.1,33.33
+Operations Manager,Retired,6,11987878.63,33.33
+Software Engineer,Retired,6,11248475.0,33.33
+Retired,Retired,6,10000745.600000001,0.0
+Lawyer,Contract,6,9219982.879999999,33.33
+Government Officer,Contract,5,7969254.97,20.0
+Sales Manager,Unknown,4,19180707.96,0.0
+Architect,Retired,4,5761848.2,50.0
+Unknown,Self Employed,3,8673472.42,0.0
+Marketing Manager,Contract,3,7530932.53,66.67
+Operations Manager,Contract,3,7332501.1,33.33
+Data Analyst,Unknown,3,5782192.6,33.33
+Unknown,Business Owner,2,4575754.91,0.0
+Unknown,Contract,1,4570573.68,100.0
+Accountant,Unknown,1,4085931.67,100.0
+Software Engineer,Unknown,1,1555007.07,0.0
+Consultant,Unknown,1,1053278.17,0.0
+Lawyer,Unknown,1,1006357.93,0.0
+Self Employed,Unknown,1,800019.03,0.0
+Business Owner,Unknown,1,532746.53,0.0

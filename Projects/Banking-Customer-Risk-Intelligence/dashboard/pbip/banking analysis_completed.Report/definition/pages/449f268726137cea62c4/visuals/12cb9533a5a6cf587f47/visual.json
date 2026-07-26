@@ -23,11 +23,11 @@
                       "Entity": "banking"
                     }
                   },
-                  "Property": "BRId"
+                  "Property": "Customer_Segment"
                 }
               },
-              "queryRef": "banking.BRId",
-              "nativeQueryRef": "BRId",
+              "queryRef": "banking.Customer_Segment",
+              "nativeQueryRef": "Customer Segment",
               "active": true
             }
           ]
@@ -43,7 +43,7 @@
                     "Entity": "banking"
                   }
                 },
-                "Property": "BRId"
+                "Property": "Customer_Segment"
               }
             },
             "direction": "Ascending"
@@ -111,7 +111,7 @@
                                   "Source": "b"
                                 }
                               },
-                              "Property": "BRId"
+                              "Property": "Customer_Segment"
                             }
                           }
                         ],

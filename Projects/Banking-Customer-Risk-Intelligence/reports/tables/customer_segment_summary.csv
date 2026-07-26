@@ -1,0 +1,4 @@
+customer_segment,customers,median_income,median_deposits,median_credit_utilization,median_tenure_years,customer_pct
+Retail,7821,753706.67,2012534.87,0.218,14.3,52.14
+Priority,3683,958939.13,2587762.84,0.213,14.0,24.55
+Private Banking,3496,1108769.585,2957191.09,0.214,14.3,23.31
