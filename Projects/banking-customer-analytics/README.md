@@ -52,7 +52,6 @@ This is a portfolio-analysis and monitoring project. It does **not** automate lo
 |---|---|---|
 | `data/processed/banking_customer_profiles_clean.csv` | One row per customer | Customer and segment analysis. |
 | `data/processed/banking_customer_loan_analytics_clean.csv` | One row per loan | Exposure, repayment-risk and modelling analysis. |
-`n
 ## Data Quality
 
 The raw files intentionally contain missing values, inconsistent category labels and financial outliers so the preparation stage reflects realistic cleaning work.
