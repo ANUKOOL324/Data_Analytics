@@ -1,234 +1,117 @@
-# Banking Customer Portfolio & Default Risk Analytics
+# Banking Customer Portfolio and Default Risk Analytics
 
-An end-to-end banking analytics project using Python, PostgreSQL, Power BI and Random Forest modelling.
+An end-to-end analytics project using Python, PostgreSQL, Power BI and machine learning to study customer value, lending exposure and active-loan default risk.
 
-This project studies customer profiles, financial position, loan exposure, repayment behaviour and default risk for a synthetic banking portfolio of 15,000 customers. The final output includes cleaned datasets, notebook analysis, SQL validation queries, report tables, figures, a Power BI dashboard and a Random Forest default-risk model.
+The project uses a synthetic but intentionally imperfect banking dataset with **15,000 customers** and **11,911 loan records**. It produces two analysis-ready datasets, four notebooks, PostgreSQL queries, reusable report outputs, a Power BI report and a tuned Random Forest monitoring model.
 
 ## Business Problem
 
-Banks need to understand customer financial strength and loan risk before making lending and portfolio-management decisions. A customer may have high income, but still carry high debt, weak repayment behaviour or high loan-to-value exposure.
+A bank needs to understand two connected areas:
 
-This project answers:
+1. **Customer portfolio value**: which customer segments hold deposits and support relationship value?
+2. **Lending risk**: where is loan exposure concentrated, which products show higher default rates, and which active loans should be reviewed first?
 
-- Which customer segments hold the highest deposit value?
-- Where is loan exposure concentrated?
-- Which loan products have higher default risk?
-- Which risk indicators are connected with repayment problems?
-- Which active loans should be reviewed first by the bank?
+The analysis answers:
 
-The project does not replace credit approval. It supports descriptive portfolio analysis and risk review.
+- Which customer and relationship segments hold the strongest deposit balances?
+- Which loan products create the largest exposure and expected loss?
+- How do DTI, credit score, LTV and delinquency relate to default?
+- Which active loans receive the highest predicted default probability?
 
-## Dataset Overview
+This is a portfolio-analysis and monitoring project. It does **not** automate loan approval or prove that a customer will default.
 
-| Item | Detail |
+## Dataset
+
+### Portfolio size
+
+| Item | Value |
 |---|---:|
 | Customer profiles | 15,000 |
 | Loan records | 11,911 |
-| Customers with loans | 10,279 |
-| Customers without loans | 4,721 |
+| Customers with at least one loan | 10,279 |
+| Customers without a loan | 4,721 |
 | Default loans | 1,478 |
-| Not default loans | 10,433 |
-| Loan default rate | 12.41% |
-| Customer-level default rate | 13.97% |
-| Total loan exposure | INR 2460.72 crore |
-| Expected loss | INR 199.17 crore |
+| Non-default loans | 10,433 |
+| Loan-level default rate | 12.41% |
+| Customer-level default rate among borrowers | 13.97% |
+| Total loan exposure | INR 2,460.72 crore |
+| Estimated expected loss | INR 199.17 crore |
 
-Raw files:
+### Raw files
 
-| File | Purpose |
-|---|---|
-| `data/raw/customers.csv` | Customer profile fields such as age, gender, occupation, nationality and relationship type. |
-| `data/raw/financial_profile.csv` | Income, deposits, card balances, debt payments and financial strength indicators. |
-| `data/raw/loans.csv` | Loan amount, loan type, term, rate, collateral and purpose. |
-| `data/raw/loan_risk.csv` | Credit score, DTI, LTV, missed payments, days past due, repayment status and `default_flag`. |
+| File | Rows | Purpose |
+|---|---:|---|
+| `data/raw/customers.csv` | 15,000 | Customer identity, demographics, occupation and bank relationship. |
+| `data/raw/financial_profile.csv` | 15,000 | Income, deposits, card balances, debt payments and financial position. |
+| `data/raw/loans.csv` | 11,911 | Loan type, amount, term, rate, collateral and purpose. |
+| `data/raw/loan_risk.csv` | 11,911 | Credit score, DTI, LTV, missed payments, days past due, repayment status and default target. |
 
-Processed files:
+### Processed files
 
-| File | Purpose |
-|---|---|
-| `data/processed/banking_customer_profiles_clean.csv` | One clean row per customer. Used for customer segmentation. |
-| `data/processed/banking_customer_loan_analytics_clean.csv` | One clean row per loan with joined customer, financial and risk fields. Used for lending-risk analysis and modelling. |
+| File | Grain | Main use |
+|---|---|---|
+| `data/processed/banking_customer_profiles_clean.csv` | One row per customer | Customer and segment analysis. |
+| `data/processed/banking_customer_loan_analytics_clean.csv` | One row per loan | Exposure, repayment-risk and modelling analysis. |
+`n
+## Data Quality
 
-## Business Insights
+The raw files intentionally contain missing values, inconsistent category labels and financial outliers so the preparation stage reflects realistic cleaning work.
 
-### 1. Loan exposure is highly concentrated in Home Loans
+Verified results after cleaning:
 
-Home Loans account for INR 1710.92 crore out of INR 2460.72 crore total loan exposure. That is the largest exposure pool in the portfolio.
-
-| Metric | Value |
+| Check | Result |
 |---|---:|
-| Home Loan records | 4,565 |
-| Home Loan exposure | INR 1710.92 crore |
-| Home Loan default rate | 13.21% |
-| Home Loan expected loss | INR 106.05 crore |
+| Duplicate customer IDs | 0 |
+| Duplicate loan IDs | 0 |
+| Exact duplicate customer rows | 0 |
+| Exact duplicate loan rows | 0 |
+| Invalid age, income, loan, credit-score or target ranges | 0 |
+| Unmatched customer-financial records | 0 |
+| Unmatched loan-risk records | 0 |
+| Remaining missing LTV values | 3,324 |
 
-Business meaning:
+The remaining LTV values are logically missing for unsecured loans. Financial outliers are retained because large deposits, high incomes, large loans and high expected-loss accounts are relevant to portfolio analysis.
 
-- Home Loans are not the riskiest product by default rate, but they create the largest expected loss because the exposure amount is very high.
-- A small increase in Home Loan defaults can create a large portfolio-level loss.
+## Key Business Findings
 
-Recommended action:
+| Finding | Evidence | Business interpretation |
+|---|---|---|
+| Home Loans dominate exposure | 4,565 loans; INR 1,710.92 crore exposure; INR 106.05 crore expected loss | Home Loans are not the highest-default product, but their size makes them the largest portfolio-loss concentration. |
+| Business Loans have the highest product default rate | 1,929 loans; 30.79% default rate; INR 84.94 crore expected loss | Business lending requires closer underwriting and active monitoring. |
+| High-risk loans are the main review group | 2,144 loans with a 53.82% default rate | Review resources should focus first on the High risk band. |
+| DTI above 60% shows greater repayment pressure | 5,303 loans with a 21.78% default rate | Income alone is not enough; existing debt commitments materially affect repayment capacity. |
+| Recent delinquency is a strong monitoring signal | 6,340 recently delinquent loans with a 23.31% default rate | Missed payments and days past due are useful for active-loan early warnings, not initial approval. |
+| Commercial relationships have the highest segment default rate | 1,614 loans with a 22.80% default rate | Commercial exposure should be reviewed by product, collateral and debt pressure. |
+| Private Bank and Platinum customers hold stronger deposits | Median deposits: INR 2.96M for Private Bank and INR 4.90M for Platinum customers | These groups are important for deposit stability and relationship management. |
 
-- Monitor high-value Home Loans separately.
-- Track early warning signals such as high DTI, missed payments and days past due.
-- Use stricter review for large Home Loans with weak credit score or high LTV.
+## Recommended Actions
 
-### 2. Business Loans are the riskiest loan product
-
-Business Loans have the highest default rate in the portfolio.
-
-| Metric | Value |
-|---|---:|
-| Business Loan records | 1,929 |
-| Business Loan exposure | INR 493.90 crore |
-| Business Loan default rate | 30.79% |
-| Business Loan expected loss | INR 84.94 crore |
-
-Business meaning:
-
-- Business Loans are smaller than Home Loans by total exposure, but the default rate is much higher.
-- This product needs stronger risk control because almost one in three Business Loan records is marked as defaulted in the dataset.
-
-Recommended action:
-
-- Review Business Loan underwriting rules.
-- Add stricter checks for DTI, repayment history and collateral quality.
-- Create a separate watchlist for Business Loans with recent delinquency.
-
-### 3. High-risk band clearly separates risky loans
-
-The risk band is useful because default behaviour changes sharply across bands.
-
-| Risk band | Loans | Default rate |
-|---|---:|---:|
-| High | 2,144 | 53.82% |
-| Medium | 4,288 | 7.53% |
-| Low | 5,479 | 0.02% |
-
-Business meaning:
-
-- The High risk group is the most important monitoring group.
-- Low risk loans are very stable in this dataset.
-- The difference between High and Low risk bands shows that the risk indicators are separating the portfolio well.
-
-Recommended action:
-
-- Prioritize High risk loans for manual review.
-- Use Medium risk loans for early intervention campaigns.
-- Keep Low risk loans under normal monitoring instead of spending too many review resources there.
-
-### 4. High DTI is a strong repayment pressure signal
-
-Customers with DTI above 60% show the highest default rate among DTI groups.
-
-| DTI band | Loans | Default rate |
-|---|---:|---:|
-| <=35% | 2,011 | 2.93% |
-| 35-45% | 1,812 | 3.86% |
-| 45-60% | 2,785 | 6.97% |
-| >60% | 5,303 | 21.78% |
-
-Business meaning:
-
-- High DTI means a larger part of income is already going toward debt payments.
-- When DTI crosses 60%, repayment stress becomes much more visible.
-
-Recommended action:
-
-- Use DTI above 60% as an early warning threshold.
-- Combine DTI with credit score and missed payment history before increasing exposure.
-- Avoid treating income alone as proof of repayment capacity.
-
-### 5. Recent delinquency is one of the clearest warning signals
-
-Loans with recent delinquency show much higher default risk.
-
-| Recent delinquency | Loans | Default rate |
-|---|---:|---:|
-| No | 5,571 | 0.00% |
-| Yes | 6,340 | 23.31% |
-
-Business meaning:
-
-- Missed payments and days past due are direct signs that a borrower is already struggling.
-- This is why the monitoring model performs better than the approval-style model.
-
-Recommended action:
-
-- Build an active watchlist using missed payments and days past due.
-- Contact customers early before delinquency becomes default.
-- Separate loan approval analysis from active loan monitoring.
-
-### 6. Commercial relationship customers carry higher default risk
-
-Commercial customers have the highest relationship-level default rate.
-
-| Relationship segment | Loans | Exposure | Default rate |
-|---|---:|---:|---:|
-| Retail | 6,277 | INR 977.63 crore | 9.86% |
-| Private Bank | 2,726 | INR 797.52 crore | 13.02% |
-| Commercial | 1,614 | INR 440.98 crore | 22.80% |
-| Institutional | 1,294 | INR 244.58 crore | 10.51% |
-
-Business meaning:
-
-- Commercial customers are not the largest group, but their default rate is the highest.
-- This segment needs closer portfolio monitoring and product-level investigation.
-
-Recommended action:
-
-- Review Commercial loans by loan type and collateral.
-- Track Commercial accounts with high DTI or recent delinquency first.
-- Use segment-level dashboards for relationship managers.
-
-### 7. High-value customer segments should be protected
-
-Private Bank and Platinum customers show strong deposit value.
-
-| Segment | Result |
-|---|---:|
-| Private Bank median deposits | INR 2,957,191 |
-| Platinum loyalty median deposits | INR 4,902,204 |
-| Overall median deposits | INR 2,344,104 |
-
-Business meaning:
-
-- These customers are important for relationship value and deposit stability.
-- Losing them can affect both deposits and future lending opportunities.
-
-Recommended action:
-
-- Give high-value customers better relationship management.
-- Monitor high-value customers who also carry risky loans.
-- Use deposit strength together with loan risk, not separately.
-
-## Business Recommendations
-
-| Area | Recommendation |
+| Area | Action supported by the analysis |
 |---|---|
-| Portfolio monitoring | Prioritize High risk loans, Business Loans and DTI above 60%. |
-| Product strategy | Treat Home Loans as exposure-heavy and Business Loans as default-heavy. |
-| Customer management | Protect Private Bank and Platinum customers because they hold stronger deposit value. |
-| Early warning system | Use missed payments, days past due, DTI and credit score together. |
-| Model usage | Use the monitoring Random Forest for active loan review, not as an automatic approval system. |
-| Dashboard usage | Track exposure, default rate and expected loss together instead of looking at loan count alone. |
+| Exposure management | Monitor large Home Loans separately because moderate default rates still create large expected loss. |
+| Product risk | Apply closer review to Business Loans, especially when DTI, credit score or collateral strength is weak. |
+| Early warning | Prioritize active loans with missed payments, days past due, High risk classification or DTI above 60%. |
+| Customer management | Protect high-deposit Private Bank and Platinum relationships while monitoring any risky borrowing attached to them. |
+| Model use | Use predicted probability to rank loans for manual review; do not use it as an automatic approval decision. |
+| Dashboard use | Read exposure, default rate and expected loss together rather than relying on loan counts alone. |
 
 ## Project Workflow
 
 ```mermaid
 flowchart LR
-    A[Raw CSV files] --> B[Data quality checks]
-    B --> C[Clean customer profile dataset]
-    B --> D[Clean loan analytics dataset]
+    A[Four raw CSV files] --> B[Quality checks and cleaning]
+    B --> C[Customer-level dataset]
+    B --> D[Loan-level dataset]
     C --> E[Customer segment analysis]
-    D --> F[Financial exposure and risk analysis]
-    D --> G[Random Forest default model]
+    D --> F[Exposure and risk analysis]
+    D --> G[Grouped model training]
     C --> H[PostgreSQL analysis]
     D --> H
-    E --> I[Report tables and figures]
+    E --> I[Tables and figures]
     F --> I
     G --> I
-    I --> J[Power BI dashboard]
+    H --> J[Power BI data model]
+    I --> J
 ```
 
 ## Repository Structure
@@ -258,256 +141,121 @@ banking-customer-analytics/
 |   |-- 02_customer_segment_analysis.sql
 |   `-- 03_financial_and_risk_analysis.sql
 |-- dashboard/
+|   |-- banking analysis_completed.pbix
+|   |-- pbip/
+|   `-- screenshots/
 |-- requirements.txt
 `-- README.md
 ```
 
-## How To Read This Project
+## Analysis Stages
 
-Read the notebooks in this order:
+### 1. Data preparation
 
-1. `01_data_quality_and_preparation.ipynb`
-2. `02_customer_and_segment_eda.ipynb`
-3. `03_financial_exposure_and_risk_eda.ipynb`
-4. `04_default_prediction_model.ipynb`
+`notebooks/01_data_quality_and_preparation.ipynb`
 
-Then open:
+- Audits row counts, keys, missing values, category labels and valid ranges.
+- Repairs recoverable missing values and preserves logical missing LTV values.
+- Validates customer-to-financial and loan-to-risk joins.
+- Builds customer-level and loan-level datasets.
+- Creates reusable bands and indicators for age, income, credit utilization, DTI, LTV, credit score and delinquency.
+- Uses IQR summaries and boxplots to inspect rather than automatically delete financial outliers.
 
-1. `reports/README.md` for report outputs
-2. `sql/` for PostgreSQL validation and analysis
-3. `dashboard/` for the Power BI dashboard files
+Primary outputs:
 
-## Notebook 1: Data Quality And Preparation
-
-This notebook prepares the data for the full project.
-
-What it does:
-
-- Loads four raw CSV files.
-- Checks row counts, columns, missing values and duplicate keys.
-- Cleans inconsistent category text.
-- Validates customer-to-financial and loan-to-risk relationships.
-- Creates calculated fields such as total deposits, deposit-to-income ratio, DTI bands, LTV bands, credit score bands and recent delinquency flags.
-- Saves the two final processed datasets.
-
-Main findings:
-
-| Check | Result |
-|---|---:|
-| Customer base prepared | 15,000 customers |
-| Loan portfolio prepared | 11,911 loan records |
-| Customers with loans | 10,279 customers |
-| Overall default rate | 12.41% |
-| Total loan exposure | INR 2460.72 crore |
-| Total expected loss | INR 199.17 crore |
-| Highest DTI band default rate | 21.78% |
-| High risk band default rate | 53.82% |
-
-Important output files:
-
-- `data/processed/banking_customer_profiles_clean.csv`
-- `data/processed/banking_customer_loan_analytics_clean.csv`
 - `reports/tables/data_quality_summary.csv`
+- `reports/tables/duplicate_summary.csv`
+- `reports/tables/missing_value_summary.csv`
 - `reports/tables/data_dictionary.csv`
 - `reports/figures/data_quality/outlier_boxplots.png`
 
-## Notebook 2: Customer And Segment Analysis
+### 2. Customer and segment analysis
 
-This notebook explains who the bank customers are before studying loan risk.
+`notebooks/02_customer_and_segment_eda.ipynb`
 
-What it analyzes:
+The customer analysis covers demographics, employment, relationship type, loyalty, income, deposits, credit utilization and advisor portfolios.
 
-- Age groups
-- Gender distribution
-- Occupations
-- Employment status
-- Banking relationship type
-- Loyalty tiers
-- Income bands
-- Deposit strength
-- Credit utilization
-- Advisor-level portfolio size
+Selected results:
 
-Main findings:
-
-| Finding | Result |
-|---|---|
-| Total customers | 15,000 |
-| Median age | 47 |
+| Metric | Result |
+|---|---:|
+| Median age | 47 years |
 | Median annual income | INR 874,387 |
-| Median total deposits | INR 2,344,104 |
-| Average customer tenure | 14.30 years |
-| Largest age group | 46-55 with 4,351 customers |
-| Largest relationship segment | Retail with 7,821 customers, 52.14% |
-| Highest median deposit segment | Private Bank with INR 2,957,191 median deposits |
-| Highest deposit loyalty tier | Platinum with INR 4,902,204 median deposits |
-| Most common credit utilization band | Low with 10,257 customers |
-| Highest value common occupation | Shop Owner with INR 2,512,022 median deposits |
+| Median deposits | INR 2,344,104 |
+| Average bank tenure | 14.30 years |
+| Largest age group | 46-55 years, 4,351 customers |
+| Largest relationship segment | Retail, 7,821 customers |
+| Most common credit-utilization band | Low, 10,257 customers |
 
-Why this matters:
-
-- Retail is the largest customer segment, so it drives customer volume.
-- Private Bank customers have stronger deposit balances, so they matter for relationship value.
-- Low credit utilization is common, which means many customers are not overusing credit cards.
-- Loyalty tier and relationship type help compare customer value before looking at loan risk.
-
-Important output files:
+Primary outputs:
 
 - `reports/tables/customer_kpis.csv`
 - `reports/tables/customer_segment_insights.csv`
 - `reports/tables/banking_relationship_summary.csv`
 - `reports/tables/loyalty_summary.csv`
-- `reports/figures/customer_segments/customer_segment_donut_charts.png`
-- `reports/figures/customer_segments/customer_value_boxplots.png`
-- `reports/figures/customer_segments/customer_segment_heatmaps.png`
+- `reports/figures/customer_segments/`
 
-## Notebook 3: Financial Exposure And Risk Analysis
+### 3. Financial exposure and risk analysis
 
-This notebook explains the bank's lending exposure and repayment-risk profile.
+`notebooks/03_financial_exposure_and_risk_eda.ipynb`
 
-What it analyzes:
+The lending analysis compares exposure, repayment status, default rate and expected loss by loan type, customer relationship, risk band, DTI, credit score, LTV and delinquency status. It uses distribution plots, boxplots, scatter plots, donut charts, grouped bars and correlation heatmaps.
 
-- Loan exposure by loan type
-- Repayment status distribution
-- Default rate by loan product
-- Default rate by risk band
-- Default rate by DTI, credit score and LTV bands
-- Recent delinquency behaviour
-- Expected loss by product and segment
-- Correlation between risk indicators
-
-Main lending findings:
-
-| Finding | Result |
-|---|---|
-| Loan records | 11,911 |
-| Customers with loans | 10,279 |
-| Total loan exposure | INR 2460.72 crore |
-| Median loan amount | INR 1,242,368 |
-| Default rate | 12.41% |
-| Expected loss | INR 199.17 crore |
-| Largest exposure product | Home Loan with INR 1710.92 crore exposure |
-| Highest default-rate product | Business Loan with 30.79% default rate |
-| Highest expected-loss product | Home Loan with INR 106.05 crore expected loss |
-
-Loan product summary:
-
-| Loan type | Loans | Exposure | Default rate | Expected loss |
-|---|---:|---:|---:|---:|
-| Home Loan | 4,565 | INR 1710.92 crore | 13.21% | INR 106.05 crore |
-| Business Loan | 1,929 | INR 493.90 crore | 30.79% | INR 84.94 crore |
-| Auto Loan | 2,169 | INR 122.54 crore | 5.72% | INR 3.11 crore |
-| Personal Loan | 2,527 | INR 100.69 crore | 5.07% | INR 3.97 crore |
-| Education Loan | 721 | INR 32.66 crore | 4.02% | INR 1.10 crore |
-
-Risk findings:
-
-| Risk indicator | Result |
-|---|---:|
-| High-risk band default rate | 53.82% |
-| Medium-risk band default rate | 7.53% |
-| Low-risk band default rate | 0.02% |
-| DTI above 60% default rate | 21.78% |
-| Recent delinquency default rate | 23.31% |
-| Commercial relationship default rate | 22.80% |
-
-Why this matters:
-
-- Home Loans hold the largest exposure, so even a moderate default rate creates large expected loss.
-- Business Loans have the highest default rate, so they need stricter monitoring.
-- DTI, missed payments and days past due are strong warning signals.
-- Risk band separates customers clearly: high-risk loans default much more often than low-risk loans.
-
-Important output files:
+Primary outputs:
 
 - `reports/tables/portfolio_kpis_readable.csv`
-- `reports/tables/lending_risk_insights.csv`
 - `reports/tables/loan_type_summary.csv`
 - `reports/tables/risk_band_summary.csv`
 - `reports/tables/default_by_dti_band.csv`
 - `reports/tables/risk_field_correlation_matrix.csv`
-- `reports/figures/financial_exposure/loan_type_exposure_and_default_rate.png`
-- `reports/figures/financial_exposure/risk_band_default_and_expected_loss.png`
-- `reports/figures/financial_exposure/loan_risk_boxplots.png`
-- `reports/figures/financial_exposure/risk_field_correlation_heatmap.png`
+- `reports/figures/financial_exposure/`
 
-## Notebook 4: Default Prediction Model
+The verified portfolio findings from this notebook are summarized once in [Key Business Findings](#key-business-findings).
 
-This notebook builds and compares machine-learning models to predict `default_flag`.
+### 4. Default-risk modelling
 
-Target meaning:
+`notebooks/04_default_prediction_model.ipynb`
+
+The target is `default_flag`:
 
 | Value | Meaning |
 |---:|---|
-| `0` | Not default: the loan is not marked as defaulted in the dataset. |
-| `1` | Default: the loan is marked as defaulted because repayment behaviour is bad enough to be treated as a failure to repay. |
+| `0` | The loan is not marked as defaulted. |
+| `1` | The loan is marked as defaulted or written off in the prepared dataset. |
 
-### Customer-Wise Train/Test Split
+#### Leakage control and split
 
-The notebook uses `StratifiedGroupKFold` with `customer_id` as the group. This prevents the same borrower from appearing in both training and testing data.
+The notebook separates two use cases:
 
-| Split check | Value |
+- **Approval-style features** exclude active repayment-warning fields.
+- **Monitoring features** add missed payments, days past due and risk band for active-loan review.
+
+`StratifiedGroupKFold` keeps every `customer_id` entirely in training or testing.
+
+| Split check | Result |
 |---|---:|
 | Training loan rows | 8,937 |
-| Testing loan rows | 2,974 |
-| Unique training customers | 7,709 |
-| Unique testing customers | 2,570 |
-| Overlapping customers | 0 |
+| Test loan rows | 2,974 |
+| Training customers | 7,709 |
+| Test customers | 2,570 |
+| Customer overlap | 0 |
 | Training default rate | 12.34% |
-| Testing default rate | 12.61% |
+| Test default rate | 12.61% |
 
-### Models Compared
+#### Model comparison
 
-Two model types are used:
+Logistic Regression is retained as an interpretable baseline. Random Forest is tuned with `RandomizedSearchCV` using grouped cross-validation on training customers only.
 
-| Model | Purpose |
-|---|---|
-| Logistic Regression | Simple baseline model. Easier to interpret and useful for comparison. |
-| Random Forest | Nonlinear model that can capture interactions between financial and repayment-risk variables. |
+| Feature set | Model | Precision | Recall | F1 | ROC-AUC | False negatives | False positives |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Approval-style | Logistic Regression | 0.2860 | 0.6933 | 0.4050 | 0.7949 | 115 | 649 |
+| Approval-style | Random Forest | 0.3086 | 0.6533 | 0.4192 | 0.7983 | 130 | 549 |
+| Monitoring | Logistic Regression | 0.8252 | 0.9440 | 0.8806 | 0.9950 | 21 | 75 |
+| Monitoring | Random Forest | 0.7188 | **0.9680** | 0.8250 | 0.9861 | **12** | 142 |
 
-Two feature sets are used:
+The selected model is the **Monitoring Random Forest** because this project prioritizes catching default-risk loans. On the test set it catches **363 of 375 defaults** and misses **12**. This choice accepts more false alerts than Monitoring Logistic Regression in exchange for fewer missed defaults.
 
-| Feature set | Purpose |
-|---|---|
-| Approval-style | Uses profile, income, loan and financial fields that are closer to loan approval information. |
-| Monitoring | Adds repayment-warning fields such as missed payments, days past due and risk band. |
-
-Monitoring models must not be presented as automatic loan-approval models because they include active repayment-warning information.
-
-### Random Forest Tuning
-
-I used `RandomizedSearchCV` for Random Forest tuning because it checks useful parameter combinations without making the notebook too slow.
-
-Tuning was done only inside the training customers using grouped cross-validation. The final test customers were not used during tuning.
-
-| Feature set | Best CV recall | Trees | Max depth | Min leaf | Max features |
-|---|---:|---:|---|---:|---|
-| Approval-style | 0.6319 | 200 | 6 | 10 | sqrt |
-| Monitoring | 0.9791 | 500 | None | 20 | sqrt |
-
-### Model Performance
-
-| Feature set | Model | Accuracy | Precision | Recall | F1-score | ROC-AUC | False negatives | False positives |
-|---|---|---:|---:|---:|---:|---:|---:|---:|
-| Approval-style | Logistic Regression | 0.7431 | 0.2860 | 0.6933 | 0.4050 | 0.7949 | 115 | 649 |
-| Approval-style | Random Forest | 0.7717 | 0.3086 | 0.6533 | 0.4192 | 0.7983 | 130 | 549 |
-| Monitoring | Logistic Regression | 0.9677 | 0.8252 | 0.9440 | 0.8806 | 0.9950 | 21 | 75 |
-| Monitoring | Random Forest | 0.9482 | 0.7188 | 0.9680 | 0.8250 | 0.9861 | 12 | 142 |
-
-### Final Model Choice
-
-The final selected model is **Monitoring Random Forest**.
-
-Reason:
-
-- Banking default monitoring should prioritize catching risky loans.
-- Monitoring Random Forest has the highest recall: `0.9680`.
-- It has the fewest false negatives: `12`.
-- Monitoring Logistic Regression has stronger precision, F1-score and ROC-AUC, but it misses more actual defaults: `21` false negatives.
-
-So the final choice is not based on accuracy alone. It is based on the business cost of missing default-risk loans.
-
-Most important Random Forest features:
+Top Random Forest drivers:
 
 | Feature | Importance |
 |---|---:|
@@ -517,35 +265,32 @@ Most important Random Forest features:
 | `debt_to_income_ratio` | 3.90% |
 | `credit_score` | 3.34% |
 
-Important output files:
+Because the strongest drivers include repayment behaviour, the selected model is an **active-loan monitoring model**, not a before-approval credit model.
 
-- `reports/tables/model_default_target_summary.csv`
-- `reports/tables/random_forest_tuning_summary.csv`
+Primary outputs:
+
 - `reports/tables/model_performance_metrics.csv`
+- `reports/tables/random_forest_tuning_summary.csv`
 - `reports/tables/random_forest_feature_importance.csv`
 - `reports/tables/high_risk_loan_predictions.csv`
-- `reports/tables/model_probability_group_summary.csv`
-- `reports/figures/modeling/model_comparison_metrics.png`
-- `reports/figures/modeling/best_model_confusion_matrix.png`
-- `reports/figures/modeling/random_forest_feature_importance.png`
-- `reports/figures/modeling/roc_curves.png`
+- `reports/figures/modeling/`
 
 ## PostgreSQL Analysis
 
-The SQL files reproduce the same project logic in PostgreSQL.
+The SQL layer validates the imported clean datasets and reproduces the main customer, exposure and risk summaries.
 
 | SQL file | Purpose |
 |---|---|
-| `sql/01_schema_and_validation.sql` | Checks imported tables, row counts, duplicates, missing values, invalid ranges and customer-loan joins. |
-| `sql/02_customer_segment_analysis.sql` | Recreates customer segment analysis by age, gender, relationship, loyalty, income and advisor. |
-| `sql/03_financial_and_risk_analysis.sql` | Recreates loan exposure, repayment, risk-band, DTI, LTV, default and expected-loss analysis. |
+| `sql/01_schema_and_validation.sql` | Checks table structure, rows, duplicates, missing values, ranges and customer-loan joins. |
+| `sql/02_customer_segment_analysis.sql` | Analyzes age, gender, relationship, loyalty, income and advisor segments. |
+| `sql/03_financial_and_risk_analysis.sql` | Analyzes exposure, repayment, DTI, LTV, default rates and expected loss. |
 
-Expected imported PostgreSQL tables:
+Expected PostgreSQL tables:
 
 - `public.banking_customer_profiles_clean`
 - `public.banking_customer_loan_analytics_clean`
 
-Example run:
+Example execution:
 
 ```bash
 psql -d banking_project -f sql/01_schema_and_validation.sql
@@ -555,28 +300,43 @@ psql -d banking_project -f sql/03_financial_and_risk_analysis.sql
 
 ## Reports
 
-The `reports/` folder contains reusable CSV summaries and chart images generated from the notebooks.
+`reports/` contains **52 CSV summary tables** and **35 PNG figures** generated by the notebooks. Start with `reports/README.md` for a guided list of the most useful outputs.
 
-Current report outputs:
+## Power BI Dashboard
 
-- 52 CSV tables
-- 35 figure files
-- `reports/README.md` explains which report files to read first
+The Power BI dashboard is included under `dashboard/` as PBIX and PBIP files. It presents customer, loan and deposit analysis across four interactive report pages.
 
-## Dashboard
+<details>
+<summary>Open dashboard screenshots</summary>
 
-The Power BI dashboard is included under `dashboard/` with PBIX, PBIP and screenshots. It is meant to present the customer portfolio, loan exposure and risk findings visually.
+### Home
+
+![Power BI dashboard home layout](dashboard/screenshots/home.png)
+
+### Loan Analysis
+
+![Power BI loan analysis layout](dashboard/screenshots/Loan_Analysis.png)
+
+### Deposit Analysis
+
+![Power BI deposit analysis layout](dashboard/screenshots/Deposit%20Analysis.png)
+
+### Summary
+
+![Power BI summary layout](dashboard/screenshots/summary.png)
+
+</details>
 
 ## Setup
 
-Install requirements:
+Create an environment and install dependencies:
 
 ```bash
 python -m venv .venv
 python -m pip install -r requirements.txt
 ```
 
-Run notebooks in order:
+Run the notebooks in order:
 
 ```text
 01_data_quality_and_preparation.ipynb
@@ -585,10 +345,10 @@ Run notebooks in order:
 04_default_prediction_model.ipynb
 ```
 
-## Limitations
+Suggested reading order:
 
-- The dataset is synthetic and created for learning/project demonstration.
-- The model supports risk review; it should not replace human credit decisions.
-- The monitoring model uses repayment-warning fields, so it should not be treated as a pure loan-approval model.
-- There is no transaction-level time series.
-- Real bank deployment would require governance, fairness checks, model monitoring and validation on real historical data.
+1. Root `README.md`
+2. Notebooks from `01` to `04`
+3. `reports/README.md`
+4. SQL files from `01` to `03`
+5. Power BI files under `dashboard/`

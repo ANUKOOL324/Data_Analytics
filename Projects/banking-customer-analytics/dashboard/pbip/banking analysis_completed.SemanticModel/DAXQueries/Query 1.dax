@@ -1,4 +1,0 @@
-Total Loan =
-    SUM(banking[Bank_Loans])
-    + SUM(banking[Business_Lending])
-    + SUM(banking[Credit_Card_Balance])
