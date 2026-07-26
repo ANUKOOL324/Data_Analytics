@@ -1,8 +1,6 @@
-# Banking Customer Portfolio and Default Risk Analytics
+# Banking Customer Risk Intelligence
 
 An end-to-end analytics project using Python, PostgreSQL, Power BI and machine learning to study customer value, lending exposure and active-loan default risk.
-
-The project uses a synthetic but intentionally imperfect banking dataset with **15,000 customers** and **11,911 loan records**. It produces two analysis-ready datasets, four notebooks, PostgreSQL queries, reusable report outputs, a Power BI report and a tuned Random Forest monitoring model.
 
 ## Business Problem
 
@@ -116,7 +114,7 @@ flowchart LR
 ## Repository Structure
 
 ```text
-banking-customer-analytics/
+Banking-Customer-Risk-Intelligence/
 |-- data/
 |   |-- raw/
 |   |   |-- customers.csv
