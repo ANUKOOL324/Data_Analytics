@@ -1,11 +1,11 @@
 column,dtype,missing_count,description
-loan_id,object,0,Unique loan identifier.
-customer_id,object,0,Unique customer identifier.
+loan_id,str,0,Unique loan identifier.
+customer_id,str,0,Unique customer identifier.
 loan_type,category,0,Type of loan product.
 loan_amount,float64,0,Loan principal amount.
 loan_term_months,int64,0,Engineered or supporting analysis field.
 interest_rate,float64,0,Annual loan interest rate.
-loan_start_date,datetime64[ns],0,Engineered or supporting analysis field.
+loan_start_date,datetime64[us],0,Engineered or supporting analysis field.
 collateral_type,category,0,Collateral category for the loan.
 collateral_value,float64,0,Engineered or supporting analysis field.
 monthly_loan_payment,float64,0,Engineered or supporting analysis field.
@@ -19,7 +19,7 @@ repayment_status,category,0,Current repayment status.
 default_flag,int64,0,"1 if defaulted, otherwise 0."
 risk_band,category,0,"Risk category: Low, Medium, or High."
 expected_loss_amount,float64,0,Estimated loss amount based on risk and exposure.
-customer_name,object,0,Customer name.
+customer_name,str,0,Customer name.
 age,int64,0,Customer age in years.
 gender,category,0,Customer gender.
 nationality,category,0,Customer nationality.
@@ -31,7 +31,7 @@ customer_segment,category,0,"Individual customer service segment: Retail, Priori
 loyalty_classification,category,0,"Customer engagement or loyalty tier, separate from service segment."
 fee_structure,category,0,Engineered or supporting analysis field.
 investment_advisor,category,0,Assigned advisor or relationship team.
-joined_bank,datetime64[ns],0,Engineered or supporting analysis field.
+joined_bank,datetime64[us],0,Engineered or supporting analysis field.
 annual_income,float64,0,Estimated yearly customer income.
 monthly_income,float64,0,Engineered or supporting analysis field.
 bank_deposits,float64,0,Engineered or supporting analysis field.
