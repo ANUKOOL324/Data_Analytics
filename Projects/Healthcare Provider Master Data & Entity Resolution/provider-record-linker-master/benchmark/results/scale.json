@@ -1,0 +1,35 @@
+{
+  "environment": {
+    "python": "3.11.15",
+    "note": "2-core cloud container"
+  },
+  "results": [
+    {
+      "entities": 2000,
+      "records": 3745,
+      "seconds": 7.7,
+      "precision": 0.9908,
+      "recall": 0.8615,
+      "reduction_ratio": 0.98391,
+      "trap_merges": 0
+    },
+    {
+      "entities": 5000,
+      "records": 9469,
+      "seconds": 45.5,
+      "precision": 0.9572,
+      "recall": 0.814,
+      "reduction_ratio": 0.98412,
+      "trap_merges": 1
+    },
+    {
+      "entities": 10000,
+      "records": 18852,
+      "seconds": 64.9,
+      "precision": 0.9522,
+      "recall": 0.8196,
+      "reduction_ratio": 0.99457,
+      "trap_merges": 0
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "records": 7504,
+  "blocking_pair_completeness": 0.9173,
+  "reduction_ratio": 0.98388,
+  "pairwise_precision": 0.9781,
+  "pairwise_recall": 0.8622,
+  "pairwise_f1": 0.9165,
+  "heldout_pair_f1": 1.0,
+  "threshold": 0.7499999999999999,
+  "clusters": 4386,
+  "cluster_exactness": 0.8299,
+  "chain_guard_dropped_pairs": 44,
+  "trap_pairs_total": 20,
+  "trap_pairs_wrongly_merged": 0,
+  "labeled_budget": 2000
+}

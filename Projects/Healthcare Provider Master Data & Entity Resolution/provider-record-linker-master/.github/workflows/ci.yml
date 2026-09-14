@@ -1,0 +1,48 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Lint
+        run: ruff check src tests benchmark
+      - name: Test
+        run: pytest --cov=linker --cov-report=term
+
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Seeded demo; trap merges must be zero
+        run: |
+          python -m linker.generator --entities 4000 --out data
+          linker run --data data --budget 2000 --out out
+          python - <<'PY'
+          import json
+          m = json.load(open("out/metrics.json"))
+          assert m["trap_pairs_wrongly_merged"] == 0, m
+          print("traps held:", m["trap_pairs_wrongly_merged"], "/", m["trap_pairs_total"])
+          PY
+      - name: Upload metrics
+        uses: actions/upload-artifact@v4
+        with:
+          name: linker-metrics
+          path: out/metrics.json
