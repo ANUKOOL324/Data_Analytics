@@ -157,8 +157,3 @@ pytest -v
 - **API:** FastAPI, Uvicorn, Starlette
 - **Visualization:** Matplotlib, matplotlib-venn
 - **Testing:** pytest
-
-## Author
-
-**Shubhan Kadam**
-Email: [dev.shubhankadam@gmail.com](mailto:dev.shubhankadam@gmail.com)
